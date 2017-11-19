@@ -1,0 +1,27 @@
+{
+    "name": "mtvs/eloquent-approval",
+    "description": "Approval process for eloquent models",
+    "keywords": ["laravel", "eloquent", "approval"],
+    "authors": [
+        {
+            "name": "Mohammad Ali Tavassoli",
+            "email": "mtvs.dev@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mtvs\\EloquentApproval\\": "src/"
+        }
+    },
+    "require": {},
+    "autoload-dev": {
+        "psr-4": {
+            "Mtvs\\EloquentApproval\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.5",
+        "orchestra/database": "~3.5",
+        "phpunit/phpunit": "^6.4"
+    }
+}

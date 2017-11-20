@@ -12,9 +12,7 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_retrieves_only_approved_by_default()
     {
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+        $this->createOneEntityFromEachStatus();
 
         $entities = Entity::all();
 
@@ -28,9 +26,7 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_can_retrieve_all()
     {
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+        $this->createOneEntityFromEachStatus();
 
         $entities = Entity::anyApprovalStatus()->get();
 
@@ -42,9 +38,7 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_can_retrieve_only_pending()
     {
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+        $this->createOneEntityFromEachStatus();
 
         $entities = Entity::onlyPending()->get();
 
@@ -58,9 +52,7 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_can_retrieve_only_rejected()
     {
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+        $this->createOneEntityFromEachStatus();
 
         $entities = Entity::onlyRejected()->get();
 
@@ -74,14 +66,27 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_can_retrieve_only_approved()
     {
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
-        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+        $this->createOneEntityFromEachStatus();
 
         $entities = Entity::onlyApproved()->get();
 
         $this->assertCount(1, $entities);
 
         $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::APPROVED);
+    }
+
+    protected function createOneEntityFromEachStatus()
+    {
+        factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::PENDING
+        ]);
+
+        factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+
+        factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
     }
 }

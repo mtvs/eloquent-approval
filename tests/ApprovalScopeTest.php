@@ -18,7 +18,10 @@ class ApprovalScopeTest extends TestCase
 
         $this->assertCount(1, $entities);
 
-        $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::APPROVED);
+        $this->assertEquals(
+            $entities[0]->approval_status,
+            ApprovalStatuses::APPROVED
+        );
     }
 
     /**
@@ -44,7 +47,10 @@ class ApprovalScopeTest extends TestCase
 
         $this->assertCount(1, $entities);
 
-        $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::PENDING);
+        $this->assertEquals(
+            $entities[0]->approval_status,
+            ApprovalStatuses::PENDING
+        );
     }
 
     /**
@@ -58,7 +64,10 @@ class ApprovalScopeTest extends TestCase
 
         $this->assertCount(1, $entities);
 
-        $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::REJECTED);
+        $this->assertEquals(
+            $entities[0]->approval_status,
+            ApprovalStatuses::REJECTED
+        );
     }
 
     /**
@@ -72,7 +81,10 @@ class ApprovalScopeTest extends TestCase
 
         $this->assertCount(1, $entities);
 
-        $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::APPROVED);
+        $this->assertEquals(
+            $entities[0]->approval_status,
+            ApprovalStatuses::APPROVED
+        );
     }
 
     protected function createOneEntityFromEachStatus()

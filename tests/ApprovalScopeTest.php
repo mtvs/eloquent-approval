@@ -22,4 +22,18 @@ class ApprovalScopeTest extends TestCase
 
         $this->assertEquals($entities[0]->approval_status, ApprovalStatuses::APPROVED);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_retrieve_all()
+    {
+        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::PENDING]);
+        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::APPROVED]);
+        factory(Entity::class)->create(['approval_status' => ApprovalStatuses::REJECTED]);
+
+        $entities = Entity::anyApprovalStatus()->get();
+
+        $this->assertCount(3, $entities);
+    }
 }

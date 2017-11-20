@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Scope;
 class ApprovalScope implements Scope
 {
 
+    protected $extensions = [
+        'AnyApprovalStatus'
+    ];
+
     /**
      * Apply the scope to a given Eloquent query builder.
      *
@@ -22,5 +26,21 @@ class ApprovalScope implements Scope
             $model->getQualifiedApprovalStatusColumn(),
             ApprovalStatuses::APPROVED
         );
+
+        $this->extend($builder);
+    }
+
+    public function extend(Builder $builder)
+    {
+        foreach ($this->extensions as $extension) {
+            $this->{'add'.$extension}($builder);
+        }
+    }
+
+    protected function addAnyApprovalStatus(Builder $builder)
+    {
+        $builder->macro('anyApprovalStatus', function (Builder $builder) {
+            return $builder->withoutGlobalScope($this);
+        });
     }
 }

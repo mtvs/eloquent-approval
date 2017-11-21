@@ -130,6 +130,22 @@ class ApprovalScopeTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function it_can_suspend_entities()
+    {
+        $this->createOneEntityFromEachStatus();
+
+        Entity::suspend();
+
+        $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
+
+        foreach ($entities as $entity) {
+            $this->assertEquals($entity->approval_status, ApprovalStatuses::PENDING);
+        }
+    }
+
     protected function createOneEntityFromEachStatus()
     {
         factory(Entity::class)->create([

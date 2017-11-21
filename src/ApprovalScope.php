@@ -15,7 +15,8 @@ class ApprovalScope implements Scope
         'OnlyRejected',
         'OnlyApproved',
         'Approve',
-        'Reject'
+        'Reject',
+        'Suspend'
     ];
 
     /**
@@ -102,6 +103,13 @@ class ApprovalScope implements Scope
     {
         $builder->macro('reject', function (Builder $builder) {
             return $this->updateStatus($builder, ApprovalStatuses::REJECTED);
+        });
+    }
+
+    protected function addSuspend(Builder $builder)
+    {
+        $builder->macro('suspend', function (Builder $builder) {
+            return $this->updateStatus($builder, ApprovalStatuses::PENDING);
         });
     }
 

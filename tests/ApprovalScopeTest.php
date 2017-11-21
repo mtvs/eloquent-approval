@@ -114,6 +114,22 @@ class ApprovalScopeTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function it_can_reject_entities()
+    {
+        $this->createOneEntityFromEachStatus();
+
+        Entity::reject();
+
+        $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
+
+        foreach ($entities as $entity) {
+            $this->assertEquals($entity->approval_status, ApprovalStatuses::REJECTED);
+        }
+    }
+
     protected function createOneEntityFromEachStatus()
     {
         factory(Entity::class)->create([

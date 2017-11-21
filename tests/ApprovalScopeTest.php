@@ -17,12 +17,14 @@ class ApprovalScopeTest extends TestCase
 
         $entities = Entity::all();
 
-        $this->assertCount(1, $entities);
+        $this->assertNotEmpty($entities);
 
-        $this->assertEquals(
-            $entities[0]->approval_status,
-            ApprovalStatuses::APPROVED
-        );
+        foreach ($entities as $entity) {
+            $this->assertEquals(
+                $entity->approval_status,
+                ApprovalStatuses::APPROVED
+            );
+        }
     }
 
     /**
@@ -34,7 +36,9 @@ class ApprovalScopeTest extends TestCase
 
         $entities = Entity::anyApprovalStatus()->get();
 
-        $this->assertCount(3, $entities);
+        $totalCount = Entity::withoutGlobalScope(new ApprovalScope())->count();
+
+        $this->assertCount($totalCount, $entities);
     }
 
     /**
@@ -46,12 +50,14 @@ class ApprovalScopeTest extends TestCase
 
         $entities = Entity::onlyPending()->get();
 
-        $this->assertCount(1, $entities);
+        $this->assertNotEmpty($entities);
 
-        $this->assertEquals(
-            $entities[0]->approval_status,
-            ApprovalStatuses::PENDING
-        );
+        foreach ($entities as $entity) {
+            $this->assertEquals(
+                $entity->approval_status,
+                ApprovalStatuses::PENDING
+            );
+        }
     }
 
     /**
@@ -63,12 +69,14 @@ class ApprovalScopeTest extends TestCase
 
         $entities = Entity::onlyRejected()->get();
 
-        $this->assertCount(1, $entities);
+        $this->assertNotEmpty($entities);
 
-        $this->assertEquals(
-            $entities[0]->approval_status,
-            ApprovalStatuses::REJECTED
-        );
+        foreach ($entities as $entity) {
+            $this->assertEquals(
+                $entity->approval_status,
+                ApprovalStatuses::REJECTED
+            );
+        }
     }
 
     /**
@@ -80,12 +88,14 @@ class ApprovalScopeTest extends TestCase
 
         $entities = Entity::onlyApproved()->get();
 
-        $this->assertCount(1, $entities);
+        $this->assertNotEmpty($entities);
 
-        $this->assertEquals(
-            $entities[0]->approval_status,
-            ApprovalStatuses::APPROVED
-        );
+        foreach ($entities as $entity) {
+            $this->assertEquals(
+                $entity->approval_status,
+                ApprovalStatuses::APPROVED
+            );
+        }
     }
 
     /**

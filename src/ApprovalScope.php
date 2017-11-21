@@ -13,7 +13,8 @@ class ApprovalScope implements Scope
         'AnyApprovalStatus',
         'OnlyPending',
         'OnlyRejected',
-        'OnlyApproved'
+        'OnlyApproved',
+        'Approve'
     ];
 
     /**
@@ -86,6 +87,19 @@ class ApprovalScope implements Scope
             );
 
             return $builder;
+        });
+    }
+
+    protected function addApprove(Builder $builder)
+    {
+        $builder->macro('approve', function (Builder $builder) {
+            $model = $builder->getModel();
+
+            $builder->anyApprovalStatus();
+
+            return $builder->update([
+                $model->getApprovalStatusColumn() => ApprovalStatuses::APPROVED
+            ]);
         });
     }
 }

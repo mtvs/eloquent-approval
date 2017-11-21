@@ -2,6 +2,7 @@
 
 namespace Mtvs\EloquentApproval\Tests;
 
+use Mtvs\EloquentApproval\ApprovalScope;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 
@@ -85,6 +86,22 @@ class ApprovalScopeTest extends TestCase
             $entities[0]->approval_status,
             ApprovalStatuses::APPROVED
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_approve_entities()
+    {
+        $this->createOneEntityFromEachStatus();
+
+        Entity::approve();
+
+        $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
+
+        foreach ($entities as $entity) {
+            $this->assertEquals($entity->approval_status, ApprovalStatuses::APPROVED);
+        }
     }
 
     protected function createOneEntityFromEachStatus()

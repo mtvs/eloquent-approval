@@ -20,6 +20,8 @@ class CreateEntitiesTable extends Migration
 
             $table->tinyInteger('approval_status')->default(0);
 
+            $table->timestamp('approval_at')->nullable();
+
             $table->timestamps();
         });
     }

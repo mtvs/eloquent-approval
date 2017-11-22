@@ -18,4 +18,9 @@ trait Approvable
     {
         return $this->getTable().'.'.$this->getApprovalStatusColumn();
     }
+
+    public function getApprovalAtColumn()
+    {
+        return defined('static::APPROVAL_AT') ? static::APPROVAL_AT : 'approval_at';
+    }
 }

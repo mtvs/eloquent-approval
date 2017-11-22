@@ -146,6 +146,31 @@ class ApprovalScopeTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function it_refreshes_approval_at_on_status_update()
+    {
+        factory(Entity::class, 3)->create();
+
+        $timestampString = (new Entity())->freshTimestampString();
+
+        Entity::whereId(1)->approve();
+        Entity::whereId(2)->reject();
+        Entity::whereId(3)->suspend();
+
+        $approved = Entity::withoutGlobalScope(new ApprovalScope())->find(1);
+        $rejected = Entity::withoutGlobalScope(new ApprovalScope())->find(2);
+        $suspended = Entity::withoutGlobalScope(new ApprovalScope())->find(3);
+
+        $entities = collect([$approved, $rejected, $suspended]);
+
+        foreach ($entities as $entity) {
+            $this->assertNotNull($entity->approval_at);
+            $this->assertEquals($timestampString, $entity->approval_at);
+        }
+    }
+
     protected function createOneEntityFromEachStatus()
     {
         factory(Entity::class)->create([

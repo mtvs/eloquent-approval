@@ -120,7 +120,8 @@ class ApprovalScope implements Scope
         $builder->anyApprovalStatus();
 
         return $builder->update([
-            $model->getApprovalStatusColumn() => $status
+            $model->getApprovalStatusColumn() => $status,
+            $model->getApprovalAtColumn() => $model->freshTimestampString()
         ]);
     }
 }

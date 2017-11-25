@@ -197,6 +197,20 @@ class ApprovalScopeTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function it_returns_number_of_updated_entities_on_status_update()
+    {
+        factory(Entity::class, 3)->create();
+
+        foreach (['approve', 'suspend', 'reject'] as $action) {
+            $this->assertEquals(1, Entity::whereId(1)->{$action}());
+            $this->assertEquals(3, Entity::query()->{$action}());
+            $this->assertEquals(0, Entity::whereId(0)->{$action}());
+        }
+    }
+
     protected function createOneEntityFromEachStatus()
     {
         factory(Entity::class)->create([

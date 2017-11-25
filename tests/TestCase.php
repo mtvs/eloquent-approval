@@ -2,6 +2,7 @@
 
 namespace Mtvs\EloquentApproval\Tests;
 
+use Mtvs\EloquentApproval\ApprovalServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -23,7 +24,8 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            ConsoleServiceProvider::class
+            ConsoleServiceProvider::class,
+            ApprovalServiceProvider::class,
         ];
     }
 }

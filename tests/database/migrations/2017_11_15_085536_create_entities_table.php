@@ -18,7 +18,7 @@ class CreateEntitiesTable extends Migration
 
             $table->string('name');
 
-            $table->tinyInteger('approval_status')->default(0);
+            $table->tinyInteger('approval_status');
 
             $table->timestamp('approval_at')->nullable();
 

@@ -9,6 +9,8 @@ trait Approvable
     public static function bootApprovable()
     {
         static::addGlobalScope(new ApprovalScope());
+
+        static::observe(ApprovableObserver::class);
     }
 
     public function getApprovalStatusColumn()

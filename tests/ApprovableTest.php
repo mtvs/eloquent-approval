@@ -11,6 +11,22 @@ class ApprovableTest extends TestCase
     /**
      * @test
      */
+    public function its_approval_status_defaults_to_pending_on_creating()
+    {
+        $entity = factory(Entity::class)->create();
+
+        $this->assertNotNull($entity->approval_status);
+        $this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+
+        $this->assertDatabaseHas('entities', [
+            'id' => $entity->id,
+            'approval_status' => ApprovalStatuses::PENDING
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_default_for_approval_status_column()
     {
         $entity = new Entity();

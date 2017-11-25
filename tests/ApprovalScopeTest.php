@@ -105,7 +105,7 @@ class ApprovalScopeTest extends TestCase
     {
         $this->createOneEntityFromEachStatus();
 
-        Entity::approve();
+        Entity::query()->approve();
 
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 
@@ -121,7 +121,7 @@ class ApprovalScopeTest extends TestCase
     {
         $this->createOneEntityFromEachStatus();
 
-        Entity::reject();
+        Entity::query()->reject();
 
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 
@@ -137,7 +137,7 @@ class ApprovalScopeTest extends TestCase
     {
         $this->createOneEntityFromEachStatus();
 
-        Entity::suspend();
+        Entity::query()->suspend();
 
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 

@@ -4,7 +4,7 @@ namespace Mtvs\EloquentApproval\Tests;
 
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
-use Mtvs\EloquentApproval\Tests\Models\EntityWithCustomApprovalStatusColumn;
+use Mtvs\EloquentApproval\Tests\Models\EntityWithCustomColumns;
 
 class ApprovableTest extends TestCase
 {
@@ -39,11 +39,34 @@ class ApprovableTest extends TestCase
      */
     public function it_can_detect_custom_approval_status_column()
     {
-        $entity = new EntityWithCustomApprovalStatusColumn();
+        $entity = new EntityWithCustomColumns();
 
         $this->assertEquals(
-            EntityWithCustomApprovalStatusColumn::APPROVAL_STATUS,
+            EntityWithCustomColumns::APPROVAL_STATUS,
             $entity->getApprovalStatusColumn()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_default_for_approval_at_column()
+    {
+        $entity = new Entity();
+
+        $this->assertEquals('approval_at', $entity->getApprovalAtColumn());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_detect_custom_approval_at_column()
+    {
+        $entity = new EntityWithCustomColumns();
+
+        $this->assertEquals(
+            EntityWithCustomColumns::APPROVAL_AT,
+            $entity->getApprovalAtColumn()
         );
     }
 

@@ -175,4 +175,70 @@ class ApprovableTest extends TestCase
             $this->assertNull($entity->approval_at);
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_can_check_if_it_is_pending()
+    {
+        $pendingEntity = factory(Entity::class)->create();
+        $approvedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+        $rejectedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
+
+        $this->assertTrue($pendingEntity->isPending());
+        $this->assertFalse($approvedEntity->isPending());
+        $this->assertFalse($rejectedEntity->isPending());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_check_if_it_is_approved()
+    {
+        $pendingEntity = factory(Entity::class)->create();
+        $approvedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+        $rejectedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
+
+        $this->assertFalse($pendingEntity->isApproved());
+        $this->assertTrue($approvedEntity->isApproved());
+        $this->assertFalse($rejectedEntity->isApproved());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_check_if_it_is_rejected()
+    {
+        $pendingEntity = factory(Entity::class)->create();
+        $approvedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+        $rejectedEntity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
+
+        $this->assertFalse($pendingEntity->isRejected());
+        $this->assertFalse($approvedEntity->isRejected());
+        $this->assertTrue($rejectedEntity->isRejected());
+    }
+
+    /**
+     * @test
+     */
+    public function it_aborts_approval_status_check_when_not_exists()
+    {
+        $entity = factory(Entity::class)->make();
+
+        $this->assertNull($entity->isPending());
+        $this->assertNull($entity->isApproved());
+        $this->assertNull($entity->isRejected());
+    }
 }

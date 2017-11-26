@@ -78,4 +78,41 @@ trait Approvable
 
         return true;
     }
+
+    /**
+     * @return bool|void
+     */
+    public function isPending()
+    {
+        return $this->hasApprovalStatus(ApprovalStatuses::PENDING);
+    }
+
+    /**
+     * @return bool|void
+     */
+    public function isApproved()
+    {
+        return $this->hasApprovalStatus(ApprovalStatuses::APPROVED);
+    }
+
+    /**
+     * @return bool|void
+     */
+    public function isRejected()
+    {
+        return $this->hasApprovalStatus(ApprovalStatuses::REJECTED);
+    }
+
+    /**
+     * @param $status
+     * @return bool|void
+     */
+    protected function hasApprovalStatus($status)
+    {
+        if (! $this->exists) {
+            return;
+        }
+
+        return $this->{$this->getApprovalStatusColumn()} == $status;
+    }
 }

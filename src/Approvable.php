@@ -28,21 +28,35 @@ trait Approvable
         return defined('static::APPROVAL_AT') ? static::APPROVAL_AT : 'approval_at';
     }
 
+    /**
+     * @return bool|void
+     */
     public function approve()
     {
         return $this->updateModelStatus(ApprovalStatuses::APPROVED);
     }
 
+    /**
+     * @return bool|void
+     */
     public function reject()
     {
         return $this->updateModelStatus(ApprovalStatuses::REJECTED);
     }
 
+    /**
+     * @return bool|void
+     */
     public function suspend()
     {
         return $this->updateModelStatus(ApprovalStatuses::PENDING);
     }
 
+    /**
+     * @param $status
+     * @return bool|void
+     * @throws Exception
+     */
     protected function updateModelStatus($status)
     {
         if (is_null($this->getKeyName())) {

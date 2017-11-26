@@ -32,8 +32,6 @@ class ApprovalScope implements Scope
             $model->getQualifiedApprovalStatusColumn(),
             ApprovalStatuses::APPROVED
         );
-
-        $this->extend($builder);
     }
 
     public function extend(Builder $builder)

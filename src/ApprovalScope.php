@@ -73,7 +73,7 @@ class ApprovalScope implements Scope
     {
         $model = $builder->getModel();
 
-        $builder->withoutGlobalScope($this)->where(
+        $builder->anyApprovalStatus()->where(
             $model->getQualifiedApprovalStatusColumn(),
             $status
         );

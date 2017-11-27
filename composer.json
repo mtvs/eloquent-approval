@@ -2,6 +2,7 @@
     "name": "mtvs/eloquent-approval",
     "description": "Approval process for Laravel Eloquent models.",
     "keywords": ["laravel", "eloquent", "approval"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Mohammad Ali Tavassoli",

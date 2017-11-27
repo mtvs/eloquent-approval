@@ -51,43 +51,34 @@ class ApprovalScope implements Scope
     protected function addOnlyPending(Builder $builder)
     {
         $builder->macro('onlyPending', function (Builder $builder) {
-            $model = $builder->getModel();
-
-            $builder->withoutGlobalScope($this)->where(
-                $model->getQualifiedApprovalStatusColumn(),
-                ApprovalStatuses::PENDING
-            );
-
-            return $builder;
+            return $this->onlyWithStatus($builder, ApprovalStatuses::PENDING);
         });
     }
 
     protected function addOnlyRejected(Builder $builder)
     {
         $builder->macro('onlyRejected', function (Builder $builder) {
-           $model = $builder->getModel();
-
-           $builder->withoutGlobalScope($this)->where(
-               $model->getQualifiedApprovalStatusColumn(),
-               ApprovalStatuses::REJECTED
-           );
-
-           return $builder;
+           return $this->onlyWithStatus($builder, ApprovalStatuses::REJECTED);
         });
     }
 
     protected function addOnlyApproved(Builder $builder)
     {
         $builder->macro('onlyApproved', function (Builder $builder) {
-            $model = $builder->getModel();
-
-            $builder->withoutGlobalScope($this)->where(
-                $model->getQualifiedApprovalStatusColumn(),
-                ApprovalStatuses::APPROVED
-            );
-
-            return $builder;
+            return $this->onlyWithStatus($builder, ApprovalStatuses::APPROVED);
         });
+    }
+
+    protected function onlyWithStatus(Builder $builder, $status)
+    {
+        $model = $builder->getModel();
+
+        $builder->withoutGlobalScope($this)->where(
+            $model->getQualifiedApprovalStatusColumn(),
+            $status
+        );
+
+        return $builder;
     }
 
     protected function addApprove(Builder $builder)

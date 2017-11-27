@@ -15,6 +15,13 @@
         }
     },
     "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mtvs\\EloquentApproval\\ApprovalServiceProvider"
+            ]
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "Mtvs\\EloquentApproval\\Tests\\": "tests/"

@@ -16,7 +16,9 @@ class CreateEntitiesTable extends Migration
         Schema::create('entities', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name');
+            $table->string('attr_1');
+            $table->string('attr_2');
+            $table->string('attr_3');
 
             $table->tinyInteger('approval_status');
 

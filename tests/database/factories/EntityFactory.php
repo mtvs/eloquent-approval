@@ -16,6 +16,8 @@ use Mtvs\EloquentApproval\Tests\Models\Entity;
 
 $factory->define(Entity::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
+        'attr_1' => $faker->word,
+        'attr_2' => $faker->word,
+        'attr_3' => $faker->word,
     ];
 });

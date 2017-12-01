@@ -6,6 +6,8 @@ use Exception;
 
 trait Approvable
 {
+    use ApprovalRequired;
+
     public static function bootApprovable()
     {
         static::addGlobalScope(new ApprovalScope());

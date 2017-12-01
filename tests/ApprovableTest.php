@@ -27,6 +27,23 @@ class ApprovableTest extends TestCase
     /**
      * @test
      */
+    public function its_approval_status_default_can_be_overridden()
+    {
+        $entity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+
+        $this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+
+        $this->assertDatabaseHas('entities', [
+            'id' => $entity->id,
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_is_suspended_on_approval_required_modification()
     {
         $entity = factory(Entity::class)->create([

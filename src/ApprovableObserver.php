@@ -8,14 +8,7 @@ class ApprovableObserver
 {
     public function creating(Model $model)
     {
-        if ($model->isDirty($model->getApprovalStatusColumn())) {
-            return;
-        }
-
-        $model->setAttribute(
-            $model->getApprovalStatusColumn(),
-            ApprovalStatuses::PENDING
-        );
+        $this->suspendIfApprovalStatusIsNotInitialized($model);
     }
 
     public function updating(Model $model)
@@ -23,17 +16,31 @@ class ApprovableObserver
         $this->suspendIfHasApprovalRequiredModification($model);
     }
 
-    public function suspendIfHasApprovalRequiredModification(Model $model)
+    protected function suspendIfApprovalStatusIsNotInitialized(Model $model)
+    {
+        if ($model->isDirty($model->getApprovalStatusColumn())) {
+            return;
+        }
+
+        $this->suspend($model);
+    }
+
+    protected function suspendIfHasApprovalRequiredModification(Model $model)
     {
         foreach ($model->getDirty() as $modifiedAttribute) {
             if ($model->isApprovalRequired($modifiedAttribute)) {
-                $model->setAttribute(
-                    $model->getApprovalStatusColumn(),
-                    ApprovalStatuses::PENDING
-                );
+                $this->suspend($model);
 
                 return;
             }
         }
+    }
+
+    protected function suspend(Model $model)
+    {
+        $model->setAttribute(
+            $model->getApprovalStatusColumn(),
+            ApprovalStatuses::PENDING
+        );
     }
 }

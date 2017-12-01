@@ -17,4 +17,23 @@ class ApprovableObserver
             ApprovalStatuses::PENDING
         );
     }
+
+    public function updating(Model $model)
+    {
+        $this->suspendIfHasApprovalRequiredModification($model);
+    }
+
+    public function suspendIfHasApprovalRequiredModification(Model $model)
+    {
+        foreach ($model->getDirty() as $modifiedAttribute) {
+            if ($model->isApprovalRequired($modifiedAttribute)) {
+                $model->setAttribute(
+                    $model->getApprovalStatusColumn(),
+                    ApprovalStatuses::PENDING
+                );
+
+                return;
+            }
+        }
+    }
 }

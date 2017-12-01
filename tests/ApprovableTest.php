@@ -27,6 +27,54 @@ class ApprovableTest extends TestCase
     /**
      * @test
      */
+    public function it_is_suspended_on_approval_required_modification()
+    {
+        $entity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+
+        $entity->update([
+            'attr_1' => 'val 1',
+            'attr_2' => 'val 2',
+            'attr_3' => 'val 3',
+        ]);
+
+        $this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+
+        $this->assertDatabaseHas('entities', [
+            'id' => $entity->id,
+            'approval_status' => ApprovalStatuses::PENDING
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_not_suspended_on_approval_not_required_modification()
+    {
+        $entity = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+
+        $entity->setApprovalRequired([]);
+
+        $entity->update([
+            'attr_1' => 'val 1',
+            'attr_2' => 'val 2',
+            'attr_3' => 'val 3',
+        ]);
+
+        $this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+
+        $this->assertDatabaseHas('entities', [
+            'id' => $entity->id,
+            'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_default_for_approval_status_column()
     {
         $entity = new Entity();

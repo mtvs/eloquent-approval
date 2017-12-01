@@ -7,12 +7,14 @@ Eloquent Approval provides approval process for Laravel's Eloquent models.
 ## How it works?
 
 It does it by using a dedicated column to store the _approval status_ of an entity.
+
 New entities are marked as _pending_ and then can become _approved_
-or _rejected_.
+or _rejected_. Also when an update occurs that modifies attributes that require
+approval the entity becomes _suspended_ again.
 
 When querying the model only _approved_ entities will be retrieved by default.
 In this way the _rejected_ entities as well as _pending_ ones will be excluded.
-You can include those by explicitly specifying it. 
+You can include those by explicitly specifying it.
 
 ## Install
 
@@ -72,6 +74,33 @@ class Entity extends Model
     const APPROVAL_AT = 'custom_approval_at';
 }
 ```
+
+#### Approval Required Attributes
+
+When an update occurs that modifies attributes that require
+approval the entity becomes _suspended_ again.
+
+```php
+$entity->update($attributes); // an update with approval required modification
+
+$entity->isPending(); // true
+```
+
+> Note that this happens only when you perform the _update_ on `Model` object
+itself not by using a query `Builder` instance.
+
+By default all attributes require approval.
+
+```php
+protected $approval_required = ['*'];
+
+protected $approval_not_required = [];
+```
+
+You can override them to have a custom set of approval required attributes.
+
+They work like `$fillable` and `$guarded` in Eloquent. `$approval_required` is
+the _black list_ while $approval_not_required` is the _white list_.  
 
 ## Usage
 

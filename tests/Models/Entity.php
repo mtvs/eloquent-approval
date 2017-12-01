@@ -7,5 +7,7 @@ use Mtvs\EloquentApproval\Approvable;
 
 class Entity extends Model
 {
+    protected $guarded = [];
+
     use Approvable;
 }

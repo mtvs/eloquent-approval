@@ -24,7 +24,7 @@ explicitly specifying it.
 ### Laravel 5.5
 
 ```sh
-$ composer require mtvs/eloquent-sluggable:^1.0
+$ composer require mtvs/eloquent-approval:^1.0
 ```
 
 

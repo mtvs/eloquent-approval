@@ -9,17 +9,19 @@
             "email": "mtvs.dev@gmail.com"
         }
     ],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "illuminate/database": "~5.5.0",
+        "illuminate/support": "~5.5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.5",
+        "orchestra/database": "~3.5",
+        "phpunit/phpunit": "^6.4"
+    },
     "autoload": {
         "psr-4": {
             "Mtvs\\EloquentApproval\\": "src/"
-        }
-    },
-    "require": {},
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Mtvs\\EloquentApproval\\ApprovalServiceProvider"
-            ]
         }
     },
     "autoload-dev": {
@@ -27,9 +29,13 @@
             "Mtvs\\EloquentApproval\\Tests\\": "tests/"
         }
     },
-    "require-dev": {
-        "orchestra/testbench": "~3.5",
-        "orchestra/database": "~3.5",
-        "phpunit/phpunit": "^6.4"
-    }
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mtvs\\EloquentApproval\\ApprovalServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable" : true
 }

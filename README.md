@@ -184,16 +184,8 @@ $entity->isPending(); // returns bool if entity exists otherwise null
 
 ## Development / Contribution
 
-### Tests
+### Run tests
 
-To run tests simply execute `phpunit`
-
-```shell    
-phpunit
-```
-    
-or if the alias is not defined on your system
-
-```shell
-vendor/bin/phpunit
+```sh   
+$ composer test
 ```

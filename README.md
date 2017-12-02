@@ -18,6 +18,15 @@ explicitly specifying it.
 
 ## Install
 
+> To get the yet unstable releases set `minimum-stability` in your project
+`composer.json`
+
+### Laravel 5.5
+
+```sh
+$ composer require mtvs/eloquent-sluggable:^1.0
+```
+
 
 
 ## Setup

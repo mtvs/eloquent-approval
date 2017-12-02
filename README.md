@@ -12,9 +12,9 @@ New entities are marked as _pending_ and then can become _approved_
 or _rejected_. Also when an update occurs that modifies attributes that require
 approval the entity becomes _suspended_ again.
 
-When querying the model only _approved_ entities will be retrieved by default.
-In this way the _rejected_ entities as well as _pending_ ones will be excluded.
-You can include those by explicitly specifying it.
+When querying the model only _approved_ entities are included meaning _rejected_
+entities as well as _pending_ ones are excluded. You can include those by
+explicitly specifying it.
 
 ## Install
 

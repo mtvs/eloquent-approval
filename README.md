@@ -84,6 +84,8 @@ class Entity extends Model
 }
 ```
 
+> Add `approval_at` to the model `$dates` to get `Carbon` instances when accessing it.
+
 #### Approval Required Attributes
 
 When an update occurs that modifies attributes that require
@@ -109,7 +111,7 @@ protected $approval_not_required = [];
 You can override them to have a custom set of approval required attributes.
 
 They work like `$fillable` and `$guarded` in Eloquent. `$approval_required` is
-the _black list_ while $approval_not_required` is the _white list_.  
+the _black list_ while `$approval_not_required` is the _white list_.  
 
 ## Usage
 
@@ -129,7 +131,7 @@ Entity::find(1); // null
 ```php
 Entity::anyApprovalStatus()->get(); // retrieving all
 
-Entity::anyApprovalStatus()->find(1); // retrieving a non approved entity
+Entity::anyApprovalStatus()->find(1); // retrieving one
 
 Entity::anyApprovalStatus()->delete(); // deleting all
 ```
@@ -146,7 +148,7 @@ Entity::onlyApproved()->get(); // retrieving only approved entities
 
 #### On model objects
 
-You can update the status of an entity by using provided methods on the model
+You can update the status of an entity by using provided methods on the `Model`
 object.
 
 ```php
@@ -157,7 +159,7 @@ $entity->suspend(); // returns bool if the entity exists otherwise null
 
 #### On `Builder` objects
 
-You can update the statuses of entities using provided methods on `Builder`
+You can update the statuses of entities by using provided methods on `Builder`
 objects.
 
 ```php
@@ -174,7 +176,7 @@ columns are both refreshed. Before the first approval action on an entity its
 
 ### Check the status of an entity
 
-You can check the status of an entity using provided methods on model objects.
+You can check the status of an entity using provided methods on `Model` objects.
 
 ```php
 $entity->isApproved(); // returns bool if entity exists otherwise null

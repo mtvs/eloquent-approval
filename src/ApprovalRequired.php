@@ -5,40 +5,20 @@ namespace Mtvs\EloquentApproval;
 
 trait ApprovalRequired
 {
-    protected $approval_required = ['*'];
-
-    protected $approval_not_required = [];
-
     /**
-     * @param array $approval_required
+     * @return array
      */
-    public function setApprovalRequired($approval_required)
+    public function approvalRequired()
     {
-        $this->approval_required = $approval_required;
-    }
-
-    /**
-     * @param array $approval_not_required
-     */
-    public function setApprovalNotRequired($approval_not_required)
-    {
-        $this->approval_not_required = $approval_not_required;
+        return ['*'];
     }
 
     /**
      * @return array
      */
-    public function getApprovalRequired()
+    public function approvalNotRequired()
     {
-        return $this->approval_required;
-    }
-
-    /**
-     * @return array
-     */
-    public function getApprovalNotRequired()
-    {
-        return $this->approval_not_required;
+        return [];
     }
 
     /**
@@ -53,16 +33,16 @@ trait ApprovalRequired
             return false;
         }
 
-        if (in_array($key, $this->getApprovalRequired())
-            || $this->getApprovalRequired() == ['*']) {
+        if (in_array($key, $this->approvalRequired())
+            || $this->approvalRequired() == ['*']) {
             return true;
         }
 
-        return ! empty($this->getApprovalNotRequired());
+        return ! empty($this->approvalNotRequired());
     }
 
     public function isApprovalNotRequired($key)
     {
-        return in_array($key, $this->getApprovalNotRequired());
+        return in_array($key, $this->approvalNotRequired());
     }
 }

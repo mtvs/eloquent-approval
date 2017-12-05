@@ -5,6 +5,7 @@ namespace Mtvs\EloquentApproval\Tests;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 use Mtvs\EloquentApproval\Tests\Models\EntityWithCustomColumns;
+use Mtvs\EloquentApproval\Tests\Models\EntityWithNoApprovalRequiredAttributes;
 
 class ApprovableTest extends TestCase
 {
@@ -69,11 +70,10 @@ class ApprovableTest extends TestCase
      */
     public function it_is_not_suspended_on_approval_not_required_modification()
     {
-        $entity = factory(Entity::class)->create([
+        $entity = factory(EntityWithNoApprovalRequiredAttributes::class)->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
 
-        $entity->setApprovalRequired([]);
 
         $entity->update([
             'attr_1' => 'val 1',

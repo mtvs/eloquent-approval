@@ -103,15 +103,27 @@ itself not by using a query `Builder` instance.
 By default all attributes require approval.
 
 ```php
-protected $approval_required = ['*'];
+/**
+ * @return array
+ */
+public function approvalRequired()
+{
+    return ['*'];
+}
 
-protected $approval_not_required = [];
+/**
+ * @return array
+ */
+public function approvalNotRequired()
+{
+    return [];
+}
 ```
 
 You can override them to have a custom set of approval required attributes.
 
-They work like `$fillable` and `$guarded` in Eloquent. `$approval_required` is
-the _black list_ while `$approval_not_required` is the _white list_.  
+They work like `$fillable` and `$guarded` in Eloquent. `approvalRequired()` returns
+the _black list_ while `approvalNotRequired()` returns the _white list_.  
 
 ## Usage
 

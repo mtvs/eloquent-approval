@@ -57,14 +57,10 @@ class ApprovableTest extends TestCase
 
         $approved->update([
             'attr_1' => 'val 1',
-            'attr_2' => 'val 2',
-            'attr_3' => 'val 3',
         ]);
 
         $rejected->update([
             'attr_1' => 'val 1',
-            'attr_2' => 'val 2',
-            'attr_3' => 'val 3',
         ]);
 
         $this->assertEquals(ApprovalStatuses::PENDING, $approved->approval_status);

@@ -47,20 +47,36 @@ class ApprovableTest extends TestCase
      */
     public function it_is_suspended_on_approval_required_modification()
     {
-        $entity = factory(Entity::class)->create([
+        $approved = factory(Entity::class)->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
 
-        $entity->update([
+        $rejected = factory(Entity::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
+
+        $approved->update([
             'attr_1' => 'val 1',
             'attr_2' => 'val 2',
             'attr_3' => 'val 3',
         ]);
 
-        $this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+        $rejected->update([
+            'attr_1' => 'val 1',
+            'attr_2' => 'val 2',
+            'attr_3' => 'val 3',
+        ]);
+
+        $this->assertEquals(ApprovalStatuses::PENDING, $approved->approval_status);
+
+        $this->assertEquals(ApprovalStatuses::PENDING, $rejected->approval_status);
 
         $this->assertDatabaseHas('entities', [
-            'id' => $entity->id,
+            'id' => $approved->id,
+            'approval_status' => ApprovalStatuses::PENDING
+        ]);
+        $this->assertDatabaseHas('entities', [
+            'id' => $rejected->id,
             'approval_status' => ApprovalStatuses::PENDING
         ]);
     }
@@ -70,22 +86,37 @@ class ApprovableTest extends TestCase
      */
     public function it_is_not_suspended_on_approval_not_required_modification()
     {
-        $entity = factory(EntityWithNoApprovalRequiredAttributes::class)->create([
+        $approved = factory(EntityWithNoApprovalRequiredAttributes::class)->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
 
+        $rejected = factory(EntityWithNoApprovalRequiredAttributes::class)->create([
+            'approval_status' => ApprovalStatuses::REJECTED
+        ]);
 
-        $entity->update([
+        $approved->update([
             'attr_1' => 'val 1',
             'attr_2' => 'val 2',
             'attr_3' => 'val 3',
         ]);
 
-        $this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+        $rejected->update([
+            'attr_1' => 'val 1',
+            'attr_2' => 'val 2',
+            'attr_3' => 'val 3',
+        ]);
+
+
+        $this->assertEquals(ApprovalStatuses::APPROVED, $approved->approval_status);
+        $this->assertEquals(ApprovalStatuses::REJECTED, $rejected->approval_status);
 
         $this->assertDatabaseHas('entities', [
-            'id' => $entity->id,
+            'id' => $approved->id,
             'approval_status' => ApprovalStatuses::APPROVED
+        ]);
+        $this->assertDatabaseHas('entities', [
+            'id' => $rejected->id,
+            'approval_status' => ApprovalStatuses::REJECTED
         ]);
     }
 

@@ -21,8 +21,8 @@ class ApprovalScopeTest extends TestCase
 
         foreach ($entities as $entity) {
             $this->assertEquals(
-                $entity->approval_status,
-                ApprovalStatuses::APPROVED
+                ApprovalStatuses::APPROVED,
+                $entity->approval_status
             );
         }
     }
@@ -54,8 +54,8 @@ class ApprovalScopeTest extends TestCase
 
         foreach ($entities as $entity) {
             $this->assertEquals(
-                $entity->approval_status,
-                ApprovalStatuses::PENDING
+                ApprovalStatuses::PENDING,
+                $entity->approval_status
             );
         }
     }
@@ -73,8 +73,8 @@ class ApprovalScopeTest extends TestCase
 
         foreach ($entities as $entity) {
             $this->assertEquals(
-                $entity->approval_status,
-                ApprovalStatuses::REJECTED
+                ApprovalStatuses::REJECTED,
+                $entity->approval_status
             );
         }
     }
@@ -92,8 +92,8 @@ class ApprovalScopeTest extends TestCase
 
         foreach ($entities as $entity) {
             $this->assertEquals(
-                $entity->approval_status,
-                ApprovalStatuses::APPROVED
+                ApprovalStatuses::APPROVED,
+                $entity->approval_status
             );
         }
     }
@@ -110,7 +110,7 @@ class ApprovalScopeTest extends TestCase
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 
         foreach ($entities as $entity) {
-            $this->assertEquals($entity->approval_status, ApprovalStatuses::APPROVED);
+            $this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
         }
     }
 
@@ -126,7 +126,7 @@ class ApprovalScopeTest extends TestCase
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 
         foreach ($entities as $entity) {
-            $this->assertEquals($entity->approval_status, ApprovalStatuses::REJECTED);
+            $this->assertEquals(ApprovalStatuses::REJECTED, $entity->approval_status);
         }
     }
 
@@ -142,7 +142,7 @@ class ApprovalScopeTest extends TestCase
         $entities = Entity::withoutGlobalScope(new ApprovalScope())->get();
 
         foreach ($entities as $entity) {
-            $this->assertEquals($entity->approval_status, ApprovalStatuses::PENDING);
+            $this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
         }
     }
 

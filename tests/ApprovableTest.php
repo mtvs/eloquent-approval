@@ -16,7 +16,8 @@ class ApprovableTest extends TestCase
     {
         $entity = factory(Entity::class)->create();
 
-        $this->assertNotNull($entity->approval_status);
+        $this->assertArrayHasKey('approval_status', $entity->getAttributes());
+
         $this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
 
         $this->assertDatabaseHas('entities', [

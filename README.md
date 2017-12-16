@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mtvs/eloquent-approval.svg?branch=master)](https://travis-ci.org/mtvs/eloquent-approval)
+
 # Eloquent Approval
 
 ## What is it?

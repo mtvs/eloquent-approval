@@ -2,6 +2,7 @@
 
 namespace Mtvs\EloquentApproval\Tests;
 
+use Illuminate\Support\Carbon;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 use Mtvs\EloquentApproval\Tests\Models\EntityWithCustomColumns;
@@ -221,15 +222,13 @@ class ApprovableTest extends TestCase
      */
     public function it_refreshes_the_entity_approval_at_on_status_update()
     {
-        $entities = factory(Entity::class, 3)->create();
+        foreach ($this->approvalActions as $action) {
+            $entity = factory(Entity::class)->create();
 
-        $time = (new Entity())->freshTimestamp();
+            $time = (new Entity())->freshTimestamp();
 
-        $entities[0]->approve();
-        $entities[1]->reject();
-        $entities[2]->suspend();
+            $entity->{$action}();
 
-        foreach ($entities as $entity) {
             $this->assertEquals($time->timestamp, $entity->approval_at->timestamp);
 
             $this->assertDatabaseHas('entities', [
@@ -250,11 +249,15 @@ class ApprovableTest extends TestCase
             'updated_at' => (New Entity())->fromDateTime($time->copy()->subHour())
         ]);
 
-        $entities[0]->approve();
-        $entities[1]->reject();
-        $entities[2]->suspend();
+        foreach ($this->approvalActions as $action) {
+            $entity = factory(Entity::class)->create([
+                'updated_at' => (New Entity())->fromDateTime(Carbon::now()->subHour())
+            ]);
 
-        foreach ($entities as $entity) {
+            $time = (new Entity())->freshTimestamp();
+
+            $entity->{$action}();
+
             $this->assertEquals($time->timestamp, $entity->updated_at->timestamp);
 
             $this->assertDatabaseHas('entities', [
@@ -271,23 +274,21 @@ class ApprovableTest extends TestCase
     {
         $entity = factory(Entity::class)->create();
 
-        $this->assertTrue($entity->approve());
-        $this->assertTrue($entity->reject());
-        $this->assertTrue($entity->suspend());
+        foreach ($this->approvalActions as $action) {
+            $this->assertTrue($entity->{$action}());
+        }
     }
 
     /**
      * @test
      */
-    public function it_refuses_to_update_status_of_not_exists()
+    public function it_refuses_to_update_status_when_not_exists()
     {
-        $entities = factory(Entity::class, 3)->make();
+        $entity = factory(Entity::class)->make();
 
-        $this->assertNull($entities[0]->approve());
-        $this->assertNull($entities[1]->reject());
-        $this->assertNull($entities[2]->suspend());
+        foreach ($this->approvalActions as $action) {
+            $this->assertNull($entity->{$action}());
 
-        foreach ($entities as $entity) {
             $this->assertNull($entity->approval_at);
         }
     }
@@ -349,12 +350,12 @@ class ApprovableTest extends TestCase
     /**
      * @test
      */
-    public function it_aborts_approval_status_check_when_not_exists()
+    public function it_refuses_to_check_status_when_not_exists()
     {
         $entity = factory(Entity::class)->make();
 
-        $this->assertNull($entity->isPending());
-        $this->assertNull($entity->isApproved());
-        $this->assertNull($entity->isRejected());
+        foreach ($this->approvalChecks as $check) {
+            $this->assertNull($entity->{$check}());
+        }
     }
 }

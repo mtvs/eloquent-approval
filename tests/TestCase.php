@@ -8,6 +8,10 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    protected $approvalActions = ['approve', 'suspend', 'reject'];
+
+    protected $approvalChecks = ['isApproved', 'isRejected', 'isPending'];
+
     protected function setUp()
     {
         parent::setUp();

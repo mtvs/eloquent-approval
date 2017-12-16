@@ -2,6 +2,7 @@
 
 namespace Mtvs\EloquentApproval\Tests;
 
+use Illuminate\Support\Carbon;
 use Mtvs\EloquentApproval\ApprovalScope;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
@@ -151,23 +152,17 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_refreshes_approval_at_on_status_update()
     {
-        factory(Entity::class, 3)->create();
+        foreach ($this->approvalActions as $action) {
+            $entityId = factory(Entity::class)->create()->id;
 
-        $timestampString = (new Entity())->freshTimestampString();
+            $timestampString = (new Entity())->freshTimestampString();
 
-        Entity::whereId(1)->approve();
-        Entity::whereId(2)->reject();
-        Entity::whereId(3)->suspend();
+            Entity::whereId($entityId)->{$action}();
 
-        $approved = Entity::withoutGlobalScope(new ApprovalScope())->find(1);
-        $rejected = Entity::withoutGlobalScope(new ApprovalScope())->find(2);
-        $suspended = Entity::withoutGlobalScope(new ApprovalScope())->find(3);
-
-        $entities = collect([$approved, $rejected, $suspended]);
-
-        foreach ($entities as $entity) {
-            $this->assertNotNull($entity->approval_at);
-            $this->assertEquals($timestampString, $entity->approval_at);
+            $this->assertDatabaseHas('entities', [
+                'id' => $entityId,
+                'approval_at' => $timestampString
+            ]);
         }
     }
 
@@ -176,24 +171,20 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_refreshes_updated_at_on_status_update()
     {
-        $time = (new Entity())->freshTimestamp();
 
-        factory(Entity::class, 3)->create([
-            'updated_at' => (New Entity())->fromDateTime($time->copy()->subHour())
-        ]);
+        foreach ($this->approvalActions as $action) {
+            $entityId = factory(Entity::class)->create([
+                'updated_at' => (New Entity())->fromDateTime(Carbon::now()->subHour())
+            ])->id;
 
-        Entity::whereId(1)->approve();
-        Entity::whereId(2)->reject();
-        Entity::whereId(3)->suspend();
+            $timestampString = (new Entity())->freshTimestampString();
 
-        $approved = Entity::withoutGlobalScope(new ApprovalScope())->find(1);
-        $rejected = Entity::withoutGlobalScope(new ApprovalScope())->find(2);
-        $suspended = Entity::withoutGlobalScope(new ApprovalScope())->find(3);
+            Entity::whereId($entityId)->{$action}();
 
-        $entities = collect([$approved, $rejected, $suspended]);
-
-        foreach ($entities as $entity) {
-            $this->assertEquals($time->timestamp, $entity->updated_at->timestamp);
+            $this->assertDatabaseHas('entities', [
+                'id' => $entityId,
+                'updated_at' => $timestampString
+            ]);
         }
     }
 
@@ -204,7 +195,7 @@ class ApprovalScopeTest extends TestCase
     {
         factory(Entity::class, 3)->create();
 
-        foreach (['approve', 'suspend', 'reject'] as $action) {
+        foreach ($this->approvalActions as $action) {
             $this->assertEquals(1, Entity::whereId(1)->{$action}());
             $this->assertEquals(3, Entity::query()->{$action}());
             $this->assertEquals(0, Entity::whereId(0)->{$action}());

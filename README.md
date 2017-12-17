@@ -2,21 +2,18 @@
 
 # Eloquent Approval
 
-## What is it?
-
-Eloquent Approval provides approval process for Laravel's Eloquent models.
+Approval process for Laravel's Eloquent models.
 
 ## How it works?
 
-It does it by using a dedicated column to store the _approval status_ of an entity.
-
-New entities are marked as _pending_ and then can become _approved_
-or _rejected_. Also when an update occurs that modifies attributes that require
-approval the entity becomes _suspended_ again.
+New entities are marked as _pending_ and then can become _approved_ or _rejeted_.
 
 When querying the model only _approved_ entities are included meaning _rejected_
 entities as well as _pending_ ones are excluded. You can include those by
 explicitly specifying it.
+
+When an update occurs that modifies attributes that require approval the entity
+becomes _suspended_ again.
 
 ## Install
 

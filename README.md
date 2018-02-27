@@ -17,13 +17,9 @@ becomes _suspended_ again.
 
 ## Install
 
-### Laravel 5.5
-
 ```sh
-$ composer require mtvs/eloquent-approval:^1.0
+$ composer require mtvs/eloquent-approval
 ```
-
-
 
 ## Setup
 

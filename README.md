@@ -21,6 +21,14 @@ becomes _suspended_ again.
 $ composer require mtvs/eloquent-approval
 ```
 
+### Version Compatibility
+
+| Laravel Version | Package Version |
+|:---------------:|:---------------:|
+|      5.6.*      |      ^1.1       |
+|      5.5.*      |      ^1.0       |
+
+
 ## Setup
 
 ### Registering the service provider

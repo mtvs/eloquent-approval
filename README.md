@@ -196,6 +196,44 @@ $entity->isRejected(); // returns bool if entity exists otherwise null
 $entity->isPending(); // returns bool if entity exists otherwise null
 ```
 
+### Approval Events
+
+There are some model events that dispatched before and after each approval action.
+
+| Action  | Before     | After     |
+|---------|------------|-----------|
+| approve | approving  | approved  |
+| suspend | suspending | suspended |
+| reject  | rejecting  | rejected  |
+
+You can hook to them by calling the provided `static` methods named after them
+and passing your callback.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Mtvs\EloquentApproval\Approvable;
+
+class Entity extends Model
+{
+    use Approvable;
+    
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::approving(function ($entity) {
+            // You can prevent it by returning false
+        });
+        
+        static::approved(function ($entity) {
+            // $entity has been approved
+        });
+    }
+}
+```
+
+[Eloquent model events](https://laravel.com/docs/eloquent#events) can also be mapped to your application event classes.
+
 ## Development / Contribution
 
 ### Run tests

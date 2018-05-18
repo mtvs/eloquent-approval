@@ -7,6 +7,7 @@ use Exception;
 trait Approvable
 {
     use ApprovalRequired;
+    use ApprovalEvents;
 
     public static function bootApprovable()
     {
@@ -35,7 +36,10 @@ trait Approvable
      */
     public function approve()
     {
-        return $this->updateModelStatus(ApprovalStatuses::APPROVED);
+        return $this->updateModelStatus(
+            ApprovalStatuses::APPROVED,
+            'approving',
+            'approved');
     }
 
     /**
@@ -43,7 +47,10 @@ trait Approvable
      */
     public function reject()
     {
-        return $this->updateModelStatus(ApprovalStatuses::REJECTED);
+        return $this->updateModelStatus(
+            ApprovalStatuses::REJECTED,
+            'rejecting',
+            'rejected');
     }
 
     /**
@@ -51,15 +58,20 @@ trait Approvable
      */
     public function suspend()
     {
-        return $this->updateModelStatus(ApprovalStatuses::PENDING);
+        return $this->updateModelStatus(
+            ApprovalStatuses::PENDING,
+            'suspending',
+            'suspended');
     }
 
     /**
      * @param $status
+     * @param $beforeEvent
+     * @param $afterEvent
      * @return bool|void
      * @throws Exception
      */
-    protected function updateModelStatus($status)
+    protected function updateModelStatus($status, $beforeEvent, $afterEvent)
     {
         if (is_null($this->getKeyName())) {
             throw new Exception('No primary key defined on model.');
@@ -67,6 +79,10 @@ trait Approvable
 
         if (! $this->exists) {
             return;
+        }
+
+        if ($this->fireModelEvent($beforeEvent) === false) {
+            return false;
         }
 
         $this->{$this->getApprovalStatusColumn()} = $status;
@@ -91,6 +107,8 @@ trait Approvable
         $this->newQueryWithoutScopes()
             ->where($this->getKeyName(), $this->getKey())
             ->update($columns);
+
+        $this->fireModelEvent($afterEvent, false);
 
         return true;
     }

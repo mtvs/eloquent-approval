@@ -241,3 +241,12 @@ class Entity extends Model
 ```sh   
 $ composer test
 ```
+
+## Inspirations
+
+When I was searching for an existing package for approval functionality
+on eloquent models I encountered [hootlex/laravel-moderation](https://github.com/hootlex/laravel-moderation)
+even though I decided to write my own package I got some helpful inspirations from that one.
+
+I also wrote different parts of the code following the way that similar parts 
+of [Eloquent](https://github.com/laravel/framework/tree/master/src/Illuminate/Database/Eloquent) itself is written.

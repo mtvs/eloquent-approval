@@ -25,7 +25,8 @@ $ composer require mtvs/eloquent-approval
 
 | Laravel Version | Package Version |
 |:---------------:|:---------------:|
-|      5.6.*      |   ^1.1 / ^1.2   |
+|      5.7.*      |       ^1.3      |
+|      5.6.*      |       ^1.1      |
 |      5.5.*      |       ^1.0      |
 
 

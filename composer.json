@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/database": "~5.6.0",
-        "illuminate/support": "~5.6.0"
+        "illuminate/database": "~5.7.0",
+        "illuminate/support": "~5.7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.6",
+        "orchestra/testbench": "~3.7",
         "orchestra/database": "~3.6",
         "phpunit/phpunit": "^7.0"
     },

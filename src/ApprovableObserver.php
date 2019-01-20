@@ -27,8 +27,12 @@ class ApprovableObserver
 
     protected function suspendIfHasApprovalRequiredModification(Model $model)
     {
-        foreach ($model->getDirty() as $modifiedAttribute) {
-            if ($model->isApprovalRequired($modifiedAttribute)) {
+        $modifiedAttributes = array_keys(
+            $model->getDirty()
+        );
+
+        foreach ($modifiedAttributes as $name) {
+            if ($model->isApprovalRequired($name)) {
                 $this->suspend($model);
 
                 return;

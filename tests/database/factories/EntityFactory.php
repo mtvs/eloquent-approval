@@ -2,7 +2,6 @@
 
 use Faker\Generator as Faker;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
-use Mtvs\EloquentApproval\Tests\Models\EntityWithNoApprovalRequiredAttributes;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +13,11 @@ use Mtvs\EloquentApproval\Tests\Models\EntityWithNoApprovalRequiredAttributes;
 | model instances for testing / seeding your application's database.
 |
 */
-$entityFactory = function (Faker $faker) {
+
+$factory->define(Entity::class, function (Faker $faker) {
     return [
         'attr_1' => $faker->word,
         'attr_2' => $faker->word,
         'attr_3' => $faker->word,
     ];
-};
-
-$factory->define(Entity::class, $entityFactory);
-$factory->define(EntityWithNoApprovalRequiredAttributes::class, $entityFactory);
+});

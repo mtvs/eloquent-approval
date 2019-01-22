@@ -3,8 +3,9 @@ language: php
 php:
  - 7.1
  - 7.2
+ - 7.3
 
-before_script:
+install:
  - composer install --no-interaction
 
 script:

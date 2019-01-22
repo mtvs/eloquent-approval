@@ -23,12 +23,7 @@ $ composer require mtvs/eloquent-approval
 
 ### Version Compatibility
 
-| Laravel Version | Package Version |
-|:---------------:|:---------------:|
-|      5.7.*      |       ^1.3      |
-|      5.6.*      |       ^1.1      |
-|      5.5.*      |       ^1.0      |
-
+`"laravel/framework": "5.5.*|5.6.*|5.7.*"`
 
 ## Setup
 

@@ -12,7 +12,7 @@ abstract class TestCase extends Orchestra
 
     protected $approvalChecks = ['isApproved', 'isRejected', 'isPending'];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

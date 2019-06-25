@@ -114,4 +114,30 @@ class ApprovalEventsTest extends TestCase
             $entity->$action();
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_supports_observers()
+    {
+        $observerMock = $this->getMockBuilder('stdClass')
+            ->setMethods($events = array_merge($this->beforeEvents, $this->afterEvents))
+            ->getMock();
+
+        foreach ($events as $event) {
+            $observerMock->expects($this->once())->method($event);
+        }
+
+        app()->singleton(get_class($observerMock), function () use ($observerMock) {
+            return $observerMock;
+        });
+
+        Entity::observe($observerMock);
+
+        $entity = factory(Entity::class)->create();
+
+        foreach ($this->actions as $action) {
+            $entity->$action();
+        }
+    }                   
 }

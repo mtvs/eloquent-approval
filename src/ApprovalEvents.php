@@ -76,4 +76,16 @@ trait ApprovalEvents
     {
         static::registerModelEvent('rejected', $callback);
     }
+
+    public function getObservableEvents()
+    {
+        return array_merge(parent::getObservableEvents(), [
+            'approving',
+            'suspending',
+            'rejecting', 
+            'approved',
+            'suspended',
+            'rejected',
+        ]);
+    }
 }

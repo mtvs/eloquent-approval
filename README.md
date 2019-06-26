@@ -203,7 +203,7 @@ There are some model events that dispatched before and after each approval actio
 | reject  | rejecting  | rejected  |
 
 You can hook to them by calling the provided `static` methods named after them
-and passing your callback.
+and passing your callbacks or by registring observers with methods with the same names.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -224,6 +224,23 @@ class Entity extends Model
         static::approved(function ($entity) {
             // $entity has been approved
         });
+
+        // or:
+
+        static::observe(ApprovalObserver::class);
+    }
+}
+
+class ApprovalObserver
+{
+    public function approving($entity)
+    {
+        // You can prevent it by returning false
+    }
+
+    public function approved($entity)
+    {
+        // $entity has been approved
     }
 }
 ```

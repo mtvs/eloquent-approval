@@ -2,6 +2,7 @@
 
 namespace Mtvs\EloquentApproval\Tests;
 
+use Illuminate\Support\Arr;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 
@@ -79,7 +80,7 @@ class ApprovalEventsTest extends TestCase
             Entity::$afterEvent([$mock, $afterEventListener]);
 
             $entity = factory(Entity::class)->create([
-                'approval_status' => array_random(array_except($this->statuses, [$i]))
+                'approval_status' => Arr::random(Arr::except($this->statuses, [$i]))
             ]);
 
             $this->assertFalse($entity->$action());

@@ -36,7 +36,7 @@ trait Approvable
      */
     public function approve()
     {
-        return $this->updateModelStatus(
+        return $this->updateApproval(
             ApprovalStatuses::APPROVED,
             'approving',
             'approved');
@@ -47,7 +47,7 @@ trait Approvable
      */
     public function reject()
     {
-        return $this->updateModelStatus(
+        return $this->updateApproval(
             ApprovalStatuses::REJECTED,
             'rejecting',
             'rejected');
@@ -58,7 +58,7 @@ trait Approvable
      */
     public function suspend()
     {
-        return $this->updateModelStatus(
+        return $this->updateApproval(
             ApprovalStatuses::PENDING,
             'suspending',
             'suspended');
@@ -71,7 +71,7 @@ trait Approvable
      * @return bool|void
      * @throws Exception
      */
-    protected function updateModelStatus($status, $beforeEvent, $afterEvent)
+    protected function updateApproval($status, $beforeEvent, $afterEvent)
     {
         if (is_null($this->getKeyName())) {
             throw new Exception('No primary key defined on model.');

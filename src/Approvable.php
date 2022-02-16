@@ -98,12 +98,6 @@ trait Approvable
             $this->getApprovalAtColumn() => $this->fromDateTime($time)
         ];
 
-        if ($this->timestamps && ! is_null($this->getUpdatedAtColumn())) {
-            $this->{$this->getUpdatedAtColumn()} = $time;
-
-            $columns[$this->getUpdatedAtColumn()] = $this->fromDateTime($time);
-        }
-
         $this->newQueryWithoutScopes()
             ->where($this->getKeyName(), $this->getKey())
             ->update($columns);

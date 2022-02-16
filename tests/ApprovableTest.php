@@ -163,34 +163,6 @@ class ApprovableTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function it_refreshes_the_entity_updated_at_on_status_update()
-    {
-        $time = (new Entity())->freshTimestamp();
-
-        $entities = factory(Entity::class, 3)->create([
-            'updated_at' => (New Entity())->fromDateTime($time->copy()->subHour())
-        ]);
-
-        foreach ($this->approvalActions as $action) {
-            $entity = factory(Entity::class)->create([
-                'updated_at' => (New Entity())->fromDateTime(Carbon::now()->subHour())
-            ]);
-
-            $time = (new Entity())->freshTimestamp();
-
-            $entity->{$action}();
-
-            $this->assertEquals($time->timestamp, $entity->updated_at->timestamp);
-
-            $this->assertDatabaseHas('entities', [
-                'id' => $entity->id,
-                'updated_at' => $entity->fromDateTime($time)
-            ]);
-        }
-    }
 
     /**
      * @test

@@ -77,6 +77,17 @@ trait ApprovalEvents
         static::registerModelEvent('rejected', $callback);
     }
 
+     /**
+     * Register a approvalChanged model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function approvalChanged($callback)
+    {
+        static::registerModelEvent('approvalChanged', $callback);
+    }
+
     public function getObservableEvents()
     {
         return array_merge(parent::getObservableEvents(), [
@@ -86,6 +97,7 @@ trait ApprovalEvents
             'approved',
             'suspended',
             'rejected',
+            'approvalChanged',
         ]);
     }
 }

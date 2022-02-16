@@ -109,6 +109,7 @@ trait Approvable
             ->update($columns);
 
         $this->fireModelEvent($afterEvent, false);
+        $this->fireModelEvent('approvalChanged', false);
 
         return true;
     }

@@ -202,6 +202,9 @@ There are some model events that dispatched before and after each approval actio
 | suspend | suspending | suspended |
 | reject  | rejecting  | rejected  |
 
+Also, there is a general event named `approvalChanged` that is dispatched whenever
+the approval status is changed regardless of the actual status.
+
 You can hook to them by calling the provided `static` methods named after them
 and passing your callbacks or by registring observers with methods with the same names.
 

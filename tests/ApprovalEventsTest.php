@@ -104,11 +104,14 @@ class ApprovalEventsTest extends TestCase
             $event = $this->afterEvents[$i];
             $listener = $event.'Listener';
             $mock = $this->getMockBuilder('stdClass')
-                ->setMethods([$listener])
+                ->setMethods([$listener, 'approvalChangedListener'])
                 ->getMock();
             $mock->expects($this->once())->method($listener);
+            $mock->expects($this->once())->method('approvalChangedListener');
 
             Entity::$event([$mock, $listener]);
+            Entity::getEventDispatcher()->forget("eloquent.approvalChanged: ".Entity::class);
+            Entity::approvalChanged([$mock, 'approvalChangedListener']);
 
             $entity = factory(Entity::class)->create();
 

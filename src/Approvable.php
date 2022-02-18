@@ -81,6 +81,11 @@ trait Approvable
             return;
         }
 
+        if ($this->{$this->getApprovalStatusColumn()} == $status)
+        {
+            return false;
+        }
+
         if ($this->fireModelEvent($beforeEvent) === false) {
             return false;
         }
@@ -90,7 +95,6 @@ trait Approvable
         $time = $this->freshTimestamp();
 
         $this->{$this->getApprovalAtColumn()} = $time;
-
 
         $columns = [
             $this->getApprovalStatusColumn() => $status,

@@ -147,9 +147,9 @@ class ApprovableTest extends TestCase
      */
     public function it_refreshes_the_entity_approval_at_on_status_update()
     {
-        foreach ($this->approvalActions as $action) {
-            $entity = factory(Entity::class)->create();
+        $entity = factory(Entity::class)->create();
 
+        foreach ($this->approvalActions as $action) {
             $time = (new Entity())->freshTimestamp();
 
             $entity->{$action}();
@@ -159,6 +159,10 @@ class ApprovableTest extends TestCase
             $this->assertDatabaseHas('entities', [
                 'id' => $entity->id,
                 'approval_at' => $entity->fromDateTime($time)
+            ]);
+
+            $entity->newQuery()->where('id', $entity->id)->update([
+                'approval_at' => $time->subHour()
             ]);
         }
     }
@@ -188,6 +192,38 @@ class ApprovableTest extends TestCase
 
             $this->assertNull($entity->approval_at);
         }
+    }
+
+    /**
+     * @test
+     **/
+    public function it_rejects_the_duplicate_approvals()
+    {
+        $statuses = [
+            ApprovalStatuses::APPROVED,
+            ApprovalStatuses::PENDING,
+            ApprovalStatuses::REJECTED
+        ];
+
+        $actions = [
+            'approve',
+            'suspend',
+            'reject'
+        ];
+
+        foreach(range(0, 2) as $i)
+        {
+            $entity = factory(Entity::class)->create([
+                'approval_status' => $statuses[$i],
+                'approval_at' => now()->subHour(1),
+            ]);
+
+            $return = $entity->{$actions[$i]}();
+
+            $this->assertNotEquals(now()->timestamp, $entity->approval_at->timestamp);
+        }
+            $this->assertFalse($return);
+        
     }
 
     /**

@@ -43,6 +43,8 @@ class ApprovalEventsTest extends TestCase
      */
     public function it_dispatches_events_before_approval_actions()
     {
+        $entity = factory(Entity::class)->create();
+
         for ($i = 0; $i < count($this->actions); $i++) {
             $action = $this->actions[$i];
             $event = $this->beforeEvents[$i];
@@ -53,8 +55,6 @@ class ApprovalEventsTest extends TestCase
             $mock->expects($this->once())->method($listener);
 
             Entity::$event([$mock, $listener]);
-
-            $entity = factory(Entity::class)->create();
 
             $entity->$action();
         }
@@ -99,6 +99,8 @@ class ApprovalEventsTest extends TestCase
      */
     public function it_dispatches_events_after_approval_actions()
     {
+        $entity = factory(Entity::class)->create();
+        
         for ($i = 0; $i < count($this->actions); $i++) {
             $action = $this->actions[$i];
             $event = $this->afterEvents[$i];
@@ -113,9 +115,41 @@ class ApprovalEventsTest extends TestCase
             Entity::getEventDispatcher()->forget("eloquent.approvalChanged: ".Entity::class);
             Entity::approvalChanged([$mock, 'approvalChangedListener']);
 
-            $entity = factory(Entity::class)->create();
-
             $entity->$action();
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_not_dispatch_the_events_on_the_duplicate_approvals()
+    {
+        for($i = 0; $i < count($this->statuses); $i++)
+        {
+            $entity = factory(Entity::class)->create([
+                'approval_status' => $this->statuses[$i],
+                'approval_at' => (new Entity())->freshTimestamp()
+            ]);
+
+            $beforeEvent = $this->beforeEvents[$i];
+            $afterEvent = $this->afterEvents[$i];
+
+            $mock = $this->getMockBuilder('stdClass')
+                ->setMethods([
+                    'beforeListener',
+                    'afterListener', 
+                    'approvalChangedListener'
+                ])->getMock();
+
+            $mock->expects($this->never())->method('beforeListener');
+            $mock->expects($this->never())->method('afterListener');
+            $mock->expects($this->never())->method('approvalChangedListener');
+
+            Entity::$beforeEvent([$mock, 'beforeListener']);
+            Entity::$afterEvent([$mock, 'afterListener']);
+            Entity::approvalChanged([$mock, 'approvalChangedListener']);
+
+            $entity->{$this->actions[$i]}();
         }
     }
 

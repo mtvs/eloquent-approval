@@ -176,11 +176,10 @@ Entity::whereIn('id', $updateIds)->reject(); // returns number of updated
 Entity::whereIn('id', $updateIds)->suspend(); // returns number of updated
 ```
 
-#### Timestamps refresh
+#### Approval Timestamp
 
-When you update the status of an entity its `approval_at` and `updated_at`
-columns are both refreshed. Before the first approval action on an entity its
-`approval_at` is `null`. 
+When you change the approval status of an entity its `approval_at` column updates.
+Before the first approval action on an entity its`approval_at` is `null`. 
 
 ### Check the status of an entity
 
@@ -249,6 +248,12 @@ class ApprovalObserver
 ```
 
 [Eloquent model events](https://laravel.com/docs/eloquent#events) can also be mapped to your application event classes.
+
+## Duplicate Approvals
+
+Trying to set the approval status to the current value is ignored, i.e.: 
+no event is dispatched and the approval timestamp doesn't update. In this case
+the approval method returns `false`.
 
 ## Development / Contribution
 

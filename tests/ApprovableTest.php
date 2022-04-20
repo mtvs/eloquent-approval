@@ -167,6 +167,25 @@ class ApprovableTest extends TestCase
         }
     }
 
+    /** @test */
+    public function it_does_not_refresh_the_entity_updated_at()
+    {
+        $entity = factory(Entity::class)->create([
+            'updated_at' => $time = (new Entity())->freshTimestamp()->subHour(1)
+        ]);
+
+        foreach ($this->approvalActions as $action) {
+            $entity->$action();
+
+            $this->assertEquals($time->timestamp, $entity->updated_at->timestamp);
+
+            $this->assertDatabaseHas('entities', [
+                'id' => $entity->id,
+                'updated_at' => $entity->fromDateTime($time)
+            ]);
+        }
+    }
+
 
     /**
      * @test

@@ -102,7 +102,8 @@ trait Approvable
             $this->getApprovalAtColumn() => $this->fromDateTime($time)
         ];
 
-        $this->newQueryWithoutScopes()
+        $this->getConnection()
+            ->table($this->getTable())
             ->where($this->getKeyName(), $this->getKey())
             ->update($columns);
 

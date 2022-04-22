@@ -38,7 +38,5 @@
                 "Mtvs\\EloquentApproval\\ApprovalServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable" : true
+    }
 }

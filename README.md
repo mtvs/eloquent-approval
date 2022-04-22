@@ -251,6 +251,33 @@ Trying to set the approval status to the current value is ignored, i.e.:
 no event is dispatched and the approval timestamp doesn't update. In this case
 the approval method returns `false`.
 
+## The Model Factory
+
+Import the `ApprovableFactory` to be able to use the approval states
+when using the model factory.
+
+```php
+    namespace Database\Factories;
+
+    use Illuminate\Database\Eloquent\Factories\Factory;
+    use Mtvs\EloquentApproval\ApprovableFactory;
+
+    class EntityFactory extends Factory
+    {
+        use ApprovableFactory;
+
+        public function definition()
+        {
+            //
+        }
+    }
+```
+```php
+    Entity::factory()->approved()->create();
+    Entity::factory()->rejected()->create();
+    Entity::factory()->suspended()->create();
+```
+
 ## Development / Contribution
 
 ### Run tests

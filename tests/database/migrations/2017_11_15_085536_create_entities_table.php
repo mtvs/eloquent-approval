@@ -20,7 +20,7 @@ class CreateEntitiesTable extends Migration
             $table->string('attr_2');
             $table->string('attr_3');
 
-            $table->tinyInteger('approval_status');
+            $table->enum('approval_status', ['pending', 'approved', 'rejected']);
 
             $table->timestamp('approval_at')->nullable();
 

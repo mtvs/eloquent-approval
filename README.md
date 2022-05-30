@@ -40,7 +40,7 @@ the _approval status_ itself and another to store the timestamp at which the
 last status update has occurred.
 
 ```php
-$table->tinyInteger('approval_status');
+$table->enum('approval_status', ['pending', 'approved', 'rejected');
 $table->timestamp('approval_at')->nullable();
 ```
 

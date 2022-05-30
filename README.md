@@ -35,16 +35,16 @@ Mtvs\EloquentApproval\ApprovalServiceProvider::class
 
 ### Database
 
-You need to add two columns to your model's database schema, one to store
-the _approval status_ itself and another to store the timestamp at which the 
-last status update has occurred.
+
+The following method adds two columns to the schema, one to store
+the _approval status_ named `approval_status` and another to store the _timestamp_ at which the 
+last status update has occurred named `approval_at`.
 
 ```php
-$table->enum('approval_status', ['pending', 'approved', 'rejected');
-$table->timestamp('approval_at')->nullable();
+$table->approvals()
 ```
 
-You can change the default column names but then you need to specify them on the model.
+You can change the default column names but then you need to specify them on the model too.
 
 ### Model 
 

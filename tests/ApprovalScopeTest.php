@@ -169,15 +169,16 @@ class ApprovalScopeTest extends TestCase
     /**
      * @test
      */
-    public function it_refreshes_updated_at_on_status_update()
+    public function it_does_not_refresh_updated_at_on_status_update()
     {
 
         foreach ($this->approvalActions as $action) {
-            $entityId = factory(Entity::class)->create([
-                'updated_at' => (New Entity())->fromDateTime(Carbon::now()->subHour())
-            ])->id;
+            $timestampString = 
+                (New Entity())->fromDateTime(Carbon::now()->subHour());
 
-            $timestampString = (new Entity())->freshTimestampString();
+            $entityId = factory(Entity::class)->create([
+                'updated_at' => $timestampString
+            ])->id;
 
             Entity::whereId($entityId)->{$action}();
 

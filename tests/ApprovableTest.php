@@ -14,7 +14,7 @@ class ApprovableTest extends TestCase
      */
     public function its_approval_status_defaults_to_pending_on_creating()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         $this->assertArrayHasKey('approval_status', $entity->getAttributes());
 
@@ -31,7 +31,7 @@ class ApprovableTest extends TestCase
      */
     public function its_approval_status_default_can_be_overridden()
     {
-        $entity = factory(Entity::class)->create([
+        $entity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
 
@@ -94,7 +94,7 @@ class ApprovableTest extends TestCase
      */
     public function it_can_approve_the_entity()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         $entity->approve();
 
@@ -111,7 +111,7 @@ class ApprovableTest extends TestCase
      */
     public function it_can_reject_the_entity()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         $entity->reject();
 
@@ -128,7 +128,7 @@ class ApprovableTest extends TestCase
      */
     public function it_can_suspend_the_entity()
     {
-        $entity = factory(Entity::class)->create([
+        $entity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
 
@@ -147,7 +147,7 @@ class ApprovableTest extends TestCase
      */
     public function it_refreshes_the_entity_approval_at_on_status_update()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         foreach ($this->approvalActions as $action) {
             $time = (new Entity())->freshTimestamp();
@@ -170,7 +170,7 @@ class ApprovableTest extends TestCase
     /** @test */
     public function it_does_not_refresh_the_entity_updated_at()
     {
-        $entity = factory(Entity::class)->create([
+        $entity = Entity::factory()->create([
             'updated_at' => $time = (new Entity())->freshTimestamp()->subHour(1)
         ]);
 
@@ -192,7 +192,7 @@ class ApprovableTest extends TestCase
      */
     public function it_returns_true_when_updates_status()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         foreach ($this->approvalActions as $action) {
             $this->assertTrue($entity->{$action}());
@@ -204,7 +204,7 @@ class ApprovableTest extends TestCase
      */
     public function it_refuses_to_update_status_when_not_exists()
     {
-        $entity = factory(Entity::class)->make();
+        $entity = Entity::factory()->make();
 
         foreach ($this->approvalActions as $action) {
             $this->assertNull($entity->{$action}());
@@ -232,7 +232,7 @@ class ApprovableTest extends TestCase
 
         foreach(range(0, 2) as $i)
         {
-            $entity = factory(Entity::class)->create([
+            $entity = Entity::factory()->create([
                 'approval_status' => $statuses[$i],
                 'approval_at' => now()->subHour(1),
             ]);
@@ -250,11 +250,11 @@ class ApprovableTest extends TestCase
      */
     public function it_can_check_if_it_is_pending()
     {
-        $pendingEntity = factory(Entity::class)->create();
-        $approvedEntity = factory(Entity::class)->create([
+        $pendingEntity = Entity::factory()->create();
+        $approvedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
-        $rejectedEntity = factory(Entity::class)->create([
+        $rejectedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::REJECTED
         ]);
 
@@ -268,11 +268,11 @@ class ApprovableTest extends TestCase
      */
     public function it_can_check_if_it_is_approved()
     {
-        $pendingEntity = factory(Entity::class)->create();
-        $approvedEntity = factory(Entity::class)->create([
+        $pendingEntity = Entity::factory()->create();
+        $approvedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
-        $rejectedEntity = factory(Entity::class)->create([
+        $rejectedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::REJECTED
         ]);
 
@@ -286,11 +286,11 @@ class ApprovableTest extends TestCase
      */
     public function it_can_check_if_it_is_rejected()
     {
-        $pendingEntity = factory(Entity::class)->create();
-        $approvedEntity = factory(Entity::class)->create([
+        $pendingEntity = Entity::factory()->create();
+        $approvedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::APPROVED
         ]);
-        $rejectedEntity = factory(Entity::class)->create([
+        $rejectedEntity = Entity::factory()->create([
             'approval_status' => ApprovalStatuses::REJECTED
         ]);
 
@@ -304,7 +304,7 @@ class ApprovableTest extends TestCase
      */
     public function it_refuses_to_check_status_when_not_exists()
     {
-        $entity = factory(Entity::class)->make();
+        $entity = Entity::factory()->make();
 
         foreach ($this->approvalChecks as $check) {
             $this->assertNull($entity->{$check}());

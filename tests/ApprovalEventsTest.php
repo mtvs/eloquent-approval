@@ -43,7 +43,7 @@ class ApprovalEventsTest extends TestCase
      */
     public function it_dispatches_events_before_approval_actions()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         for ($i = 0; $i < count($this->actions); $i++) {
             $action = $this->actions[$i];
@@ -79,7 +79,7 @@ class ApprovalEventsTest extends TestCase
             Entity::$beforeEvent([$mock, $beforeListener]);
             Entity::$afterEvent([$mock, $afterEventListener]);
 
-            $entity = factory(Entity::class)->create([
+            $entity = Entity::factory()->create([
                 'approval_status' => Arr::random(Arr::except($this->statuses, [$i]))
             ]);
 
@@ -99,7 +99,7 @@ class ApprovalEventsTest extends TestCase
      */
     public function it_dispatches_events_after_approval_actions()
     {
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
         
         for ($i = 0; $i < count($this->actions); $i++) {
             $action = $this->actions[$i];
@@ -126,7 +126,7 @@ class ApprovalEventsTest extends TestCase
     {
         for($i = 0; $i < count($this->statuses); $i++)
         {
-            $entity = factory(Entity::class)->create([
+            $entity = Entity::factory()->create([
                 'approval_status' => $this->statuses[$i],
                 'approval_at' => (new Entity())->freshTimestamp()
             ]);
@@ -172,7 +172,7 @@ class ApprovalEventsTest extends TestCase
 
         Entity::observe($observerMock);
 
-        $entity = factory(Entity::class)->create();
+        $entity = Entity::factory()->create();
 
         foreach ($this->actions as $action) {
             $entity->$action();

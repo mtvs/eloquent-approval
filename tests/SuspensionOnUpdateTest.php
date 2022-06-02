@@ -20,9 +20,9 @@ class SuspensionOnUpdateTest extends TestCase
 	 */
 	public function it_works_when_all_attributes_require_approval_on_update()
 	{
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		$attributes = Entity::factory()->approved()->raw();
+
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()
@@ -52,10 +52,10 @@ class SuspensionOnUpdateTest extends TestCase
 	 */
 	public function it_works_when_some_attributes_do_not_require_approval_on_update()
 	{
+		$attributes = Entity::factory()->approved()->raw();
+
 		// it isn't suspended on update of the attributes that don't require approval
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()
@@ -80,9 +80,7 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		// it is suspended on update of the attributes that require approval
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()
@@ -112,10 +110,10 @@ class SuspensionOnUpdateTest extends TestCase
 	 */
 	public function it_works_when_some_attributes_require_approval_on_update()
 	{
+		$attributes = Entity::factory()->approved()->raw();
+
 		// it isn't suspended on update of the attributes that don't require approval
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()
@@ -141,9 +139,7 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		// it is suspended on update of the attributes that require approval
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()
@@ -173,9 +169,9 @@ class SuspensionOnUpdateTest extends TestCase
 	 */
 	public function it_works_when_no_attribute_requires_approval_on_update()
 	{
-		with($entity = new class (factory(Entity::class)->raw([
-			'approval_status' => ApprovalStatuses::APPROVED,
-		])) extends Entity {
+		$attributes = Entity::factory()->approved()->raw();
+
+		with($entity = new class ($attributes) extends Entity {
 			protected $table = 'entities';
 
 			public function approvalRequired()

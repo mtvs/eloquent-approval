@@ -1,23 +1,23 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Mtvs\EloquentApproval\Tests\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Mtvs\EloquentApproval\ApprovableFactoryStates;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+class EntityFactory extends Factory
+{
+    use ApprovableFactoryStates;
 
-$factory->define(Entity::class, function (Faker $faker) {
-    return [
-        'attr_1' => $faker->word,
-        'attr_2' => $faker->word,
-        'attr_3' => $faker->word,
-    ];
-});
+    protected $model = Entity::class;
+
+    public function definition()
+    {
+        return [
+            'attr_1' => $this->faker->word,
+            'attr_2' => $this->faker->word,
+            'attr_3' => $this->faker->word,
+        ];
+    }
+}

@@ -153,7 +153,7 @@ class ApprovalScopeTest extends TestCase
     public function it_refreshes_approval_at_on_status_update()
     {
         foreach ($this->approvalActions as $action) {
-            $entityId = factory(Entity::class)->create()->id;
+            $entityId = Entity::factory()->create()->id;
 
             $timestampString = (new Entity())->freshTimestampString();
 
@@ -176,7 +176,7 @@ class ApprovalScopeTest extends TestCase
             $timestampString = 
                 (New Entity())->fromDateTime(Carbon::now()->subHour());
 
-            $entityId = factory(Entity::class)->create([
+            $entityId = Entity::factory()->create([
                 'updated_at' => $timestampString
             ])->id;
 
@@ -194,7 +194,7 @@ class ApprovalScopeTest extends TestCase
      */
     public function it_returns_number_of_updated_entities_on_status_update()
     {
-        factory(Entity::class, 3)->create();
+        Entity::factory(3)->create();
 
         foreach ($this->approvalActions as $action) {
             $this->assertEquals(1, Entity::whereId(1)->{$action}());
@@ -205,16 +205,10 @@ class ApprovalScopeTest extends TestCase
 
     protected function createOneEntityFromEachStatus()
     {
-        factory(Entity::class)->create([
-            'approval_status' => ApprovalStatuses::PENDING
-        ]);
+        Entity::factory()->suspended()->create();
 
-        factory(Entity::class)->create([
-            'approval_status' => ApprovalStatuses::APPROVED
-        ]);
+        Entity::factory()->approved()->create();
 
-        factory(Entity::class)->create([
-            'approval_status' => ApprovalStatuses::REJECTED
-        ]);
+        Entity::factory()->rejected()->create();
     }
 }

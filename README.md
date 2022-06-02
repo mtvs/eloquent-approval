@@ -253,18 +253,18 @@ the approval method returns `false`.
 
 ## The Model Factory
 
-Import the `ApprovableFactory` to be able to use the approval states
+Import the `ApprovalFactoryStates` to be able to use the approval states
 when using the model factory.
 
 ```php
     namespace Database\Factories;
 
     use Illuminate\Database\Eloquent\Factories\Factory;
-    use Mtvs\EloquentApproval\ApprovableFactory;
+    use Mtvs\EloquentApproval\ApprovalFactoryStates;
 
     class EntityFactory extends Factory
     {
-        use ApprovableFactory;
+        use ApprovalFactoryStates;
 
         public function definition()
         {

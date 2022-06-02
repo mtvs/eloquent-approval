@@ -3,12 +3,12 @@
 namespace Mtvs\EloquentApproval\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Mtvs\EloquentApproval\ApprovableFactoryStates;
+use Mtvs\EloquentApproval\ApprovalFactoryStates;
 use Mtvs\EloquentApproval\Tests\Models\Entity;
 
 class EntityFactory extends Factory
 {
-    use ApprovableFactoryStates;
+    use ApprovalFactoryStates;
 
     protected $model = Entity::class;
 

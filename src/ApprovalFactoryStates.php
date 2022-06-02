@@ -2,7 +2,7 @@
 
 namespace Mtvs\EloquentApproval;
 
-trait ApprovableFactoryStates
+trait ApprovalFactoryStates
 {
 	public function approved()
 	{

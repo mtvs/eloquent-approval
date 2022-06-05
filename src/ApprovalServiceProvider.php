@@ -12,6 +12,12 @@ class ApprovalServiceProvider extends ServiceProvider
         $this->app->singleton(ApprovableObserver::class, function () {
            return new ApprovableObserver();
         });
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                UiCommand::class,
+            ]);
+        }
     }
 
     public function boot()

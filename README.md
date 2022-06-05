@@ -277,6 +277,69 @@ when using the model factory.
     Entity::factory()->rejected()->create();
     Entity::factory()->suspended()->create();
 ```
+## Handling Approval HTTP Requests
+
+You can import the `HandlesApproval` in a controller to perform the approval
+operations on a model. It contains an abstract method which has to be implemented
+to return the model's class name.
+
+```php
+    namespace App\Http\Controllers\Admin;
+
+    use App\Http\Controllers\Controller;
+    use App\Models\Entity;
+    use Mtvs\EloquentApproval\HandlesApproval;
+
+    class EntitiesController extends Controller
+    {
+        use HandlesApproval;
+
+        protected function model()
+        {
+            return Entity::class;
+        }
+    }
+
+```
+
+The trait's `performApproval()` does the approval and the request should be
+routed to this method. It has the `key` and `request` parameters which are 
+passed to it by the router.
+
+When do the routing, don't forget to apply the `auth` and `can` middlewares for
+authentication and authourization.
+
+```php
+    Route::post(
+        'admin/enitiy/{key}/approval', 
+        'Admin\EntitiesController@performApproval'
+    )->middleware(['auth', 'can:perform-approval'])
+```
+
+The request must have a `approval_status` key with
+one of the possible values: `approved`, `pending`, `rejected`.
+
+## Frontend Components
+
+There are also some UI components here written for Vue.js and Bootstrap that 
+you can use. First install them using the `approval:ui` artisan command and 
+then register them in your app.js file.
+
+### Approval Buttons Component
+
+Call `<approval-buttons>` and pass the `current-status` and the `approval-url` 
+props to be able to make HTTP requests to set the approval status.
+
+It emits the `approval-changed` event when an approval action happens. 
+The payload of the event is an object with new `approval_status` and 
+`approval_at` values. Use the event to modify the corresponding keys on the
+`entity` which in turn should change the `current-status` prop on the following
+cycle.
+
+### Approval Status Component
+
+Call `<approval-status>` and pass the `value` prop to show the current status.
+
 
 ## Development / Contribution
 

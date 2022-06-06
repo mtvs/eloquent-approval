@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mtvs/eloquent-approval.svg?branch=master)](https://travis-ci.org/mtvs/eloquent-approval)
+![Build Status](https://github.com/mtvs/eloquent-approval/actions/workflows/build.yml/badge.svg)
 
 # Eloquent Approval
 

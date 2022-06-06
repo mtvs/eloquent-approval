@@ -1,0 +1,25 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.0, 8.1]
+        illuminate: [^8.0, ^9.0]
+
+    name: PHP ${{ matrix.php }} & Illuminate ${{ matrix.illuminate }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+      - run: composer require "illuminate/database:${{ matrix.illuminate }}" --no-update
+      - run: composer require "illuminate/support:${{ matrix.illuminate }}" --no-update
+      - run: composer update --no-interaction
+      - run: vendor/bin/phpunit

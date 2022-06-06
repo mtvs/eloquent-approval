@@ -1,10 +1,10 @@
 ![Build Status](https://github.com/mtvs/eloquent-approval/actions/workflows/build.yml/badge.svg)
 
+![eloquent-approval-preview](https://user-images.githubusercontent.com/8286154/172069783-52fd5b91-e032-4c1a-9094-9611abe4e3c8.png)
+
 # Eloquent Approval
 
 Approval process for Laravel's Eloquent models.
-
-![eloquent-approval-preview](https://user-images.githubusercontent.com/8286154/172069783-52fd5b91-e032-4c1a-9094-9611abe4e3c8.png)
 
 ## How it works?
 

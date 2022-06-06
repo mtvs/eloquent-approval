@@ -33,10 +33,7 @@ discovery otherwise you need to register it in your `config\app.php`
 ```php
 Mtvs\EloquentApproval\ApprovalServiceProvider::class
 ```
-
-
 ### Database
-
 
 The following method adds two columns to the schema, one to store
 the _approval status_ named `approval_status` and another to store the _timestamp_ at which the 
@@ -342,6 +339,10 @@ cycle.
 
 Call `<approval-status>` and pass the `value` prop to show the current status.
 
+## Support
+
+If you liked this project and want to support the author, you can contact
+[mtvsdev@gmail.com](mailto:mtvsdev@gmail.com) Thanks.
 
 ## Development / Contribution
 

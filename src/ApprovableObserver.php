@@ -8,15 +8,15 @@ class ApprovableObserver
 {
     public function creating(Model $model)
     {
-        $this->suspendIfApprovalStatusIsNotInitialized($model);
+        $this->initializeApprovalStatus($model);
     }
 
     public function updating(Model $model)
     {
-        $this->suspendIfHasApprovalRequiredModification($model);
+        $this->resetApprovalStatus($model);
     }
 
-    protected function suspendIfApprovalStatusIsNotInitialized(Model $model)
+    protected function initializeApprovalStatus(Model $model)
     {
         if ($model->isDirty($model->getApprovalStatusColumn())) {
             return;
@@ -25,7 +25,7 @@ class ApprovableObserver
         $this->suspend($model);
     }
 
-    protected function suspendIfHasApprovalRequiredModification(Model $model)
+    protected function resetApprovalStatus(Model $model)
     {
         $modifiedAttributes = array_keys(
             $model->getDirty()

@@ -6,11 +6,12 @@
 
 Approval process for Laravel's Eloquent models.
 
-## How it works?
+## How it works
 
-New entities are marked as _pending_ and then can become _approved_ or _rejected_.
+After the setup, when new entities are being created, they are marked as 
+_pending_. Then their status can be changed to _approved_ or _rejected_.
 
-When querying the model only _approved_ entities are included meaning _rejected_
+When querying the model only _approved_ entities are included, i.e.: _rejected_
 entities as well as _pending_ ones are excluded. You can include those by
 explicitly specifying it.
 
@@ -37,7 +38,7 @@ Mtvs\EloquentApproval\ApprovalServiceProvider::class
 
 The following method adds two columns to the schema, one to store
 the _approval status_ named `approval_status` and another to store the _timestamp_ at which the 
-last status update has occurred named `approval_at`.
+last status update is occurred named `approval_at`.
 
 ```php
 $table->approvals()
@@ -59,7 +60,7 @@ class Entity extends Model
 }
 ```
 
-If you decided to change the default column names you need to specify them
+If you want to change the default column names you need to specify them
 by adding class constants to your model
 
 ```php    
@@ -75,12 +76,12 @@ class Entity extends Model
 }
 ```
 
-> Add `approval_at` to the model `$dates` to get `Carbon` instances when accessing it.
+> Add `approval_at` to the model `$dates` list to get `Carbon` instances when accessing it.
 
 #### Approval Required Attributes
 
 When an update occurs that modifies attributes that require
-approval the entity becomes _suspended_ again.
+approval, the entity becomes _suspended_ again.
 
 ```php
 $entity->update($attributes); // an update with approval required modification
@@ -113,7 +114,7 @@ public function approvalNotRequired()
 
 You can override them to have a custom set of approval required attributes.
 
-They work like `$fillable` and `$guarded` in Eloquent. `approvalRequired()` returns
+They work like `$fillable` and `$guarded` in the Eloquent. `approvalRequired()` returns
 the _black list_ while `approvalNotRequired()` returns the _white list_.  
 
 ## Usage
@@ -147,7 +148,7 @@ Entity::onlyRejected()->get(); // retrieving only rejected entities
 Entity::onlyApproved()->get(); // retrieving only approved entities
 ```
 
-### Updating status 
+### Updating the status 
 
 #### On model objects
 
@@ -162,7 +163,7 @@ $entity->suspend(); // returns bool if the entity exists otherwise null
 
 #### On `Builder` objects
 
-You can update the statuses of entities by using provided methods on `Builder`
+You can update the status of more than one entity by using provided methods on `Builder`
 objects.
 
 ```php
@@ -188,7 +189,7 @@ $entity->isPending(); // returns bool if entity exists otherwise null
 
 ### Approval Events
 
-There are some model events that dispatched before and after each approval action.
+There are some model events that are dispatched before and after each approval action.
 
 | Action  | Before     | After     |
 |---------|------------|-----------|
@@ -199,8 +200,9 @@ There are some model events that dispatched before and after each approval actio
 Also, there is a general event named `approvalChanged` that is dispatched whenever
 the approval status is changed regardless of the actual status.
 
-You can hook to them by calling the provided `static` methods named after them
-and passing your callbacks or by registring observers with methods with the same names.
+You can hook to them by calling the provided `static` methods, which are named 
+after them, and passing your callbacks. Or by registring observers with methods
+with the same names.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -215,7 +217,7 @@ class Entity extends Model
         parent::boot();
         
         static::approving(function ($entity) {
-            // You can prevent it by returning false
+            // You can halt the process by returning false
         });
         
         static::approved(function ($entity) {
@@ -232,7 +234,7 @@ class ApprovalObserver
 {
     public function approving($entity)
     {
-        // You can prevent it by returning false
+        // You can halt the process by returning false
     }
 
     public function approved($entity)
@@ -247,8 +249,8 @@ class ApprovalObserver
 ## Duplicate Approvals
 
 Trying to set the approval status to the current value is ignored, i.e.: 
-no event is dispatched and the approval timestamp doesn't update. In this case
-the approval method returns `false`.
+no event will be dispatched and the approval timestamp won't be updated. 
+In this case the approval method returns `false`.
 
 ## The Model Factory
 
@@ -330,9 +332,9 @@ Call `<approval-buttons>` and pass the `current-status` and the `approval-url`
 props to be able to make HTTP requests to set the approval status.
 
 It emits the `approval-changed` event when an approval action happens. 
-The payload of the event is an object with new `approval_status` and 
+The payload of the event is an object with the new `approval_status` and 
 `approval_at` values. Use the event to modify the corresponding keys on the
-`entity` which in turn should change the `current-status` prop on the following
+`entity` that in turn should change the `current-status` prop on the following
 cycle.
 
 ### Approval Status Component

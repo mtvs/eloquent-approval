@@ -6,6 +6,19 @@
 
 Approval process for Laravel's Eloquent models.
 
+## Why we need content approval in our apps
+
+Unless you're comfortable with unacceptable content, spam and any other 
+violations that may appear in what the users post, you need to include some
+sort of content approval in your app.
+
+## Why approval process with three states
+
+Although it's possible to approve a model by using a boolean field but a field 
+that has three possible values: pending, approved and rejected gives us more 
+power. It differentiates between the models waiting for the decision and the 
+rejected ones and also makes it clear for the user if their content gets rejected.
+
 ## How it works
 
 After the setup, when new entities are being created, they are marked as 

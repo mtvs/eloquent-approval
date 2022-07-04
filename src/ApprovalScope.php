@@ -28,6 +28,10 @@ class ApprovalScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
+        if ($model->approvalScopeDisabled) {
+            return;
+        }
+        
         $builder->where(
             $model->getQualifiedApprovalStatusColumn(),
             ApprovalStatuses::APPROVED

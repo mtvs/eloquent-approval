@@ -42,6 +42,24 @@ class ApprovalScopeTest extends TestCase
         $this->assertCount($totalCount, $entities);
     }
 
+    /** @test */
+    public function it_can_be_disabled_on_the_model()
+    {
+        $this->createOneEntityFromEachStatus();
+
+        $totalCount = Entity::withoutGlobalScope(new ApprovalScope())->count();
+
+        $entityWithApprovalScopeDisabled = new class extends Entity {
+            protected $table = 'entities';
+
+            public $approvalScopeDisabled = true;
+        };
+
+        $entities = $entityWithApprovalScopeDisabled->newQuery()->get();
+
+        $this->assertEquals($totalCount, count($entities));
+    }
+
     /**
      * @test
      */

@@ -24,12 +24,12 @@ rejected ones and also makes it clear for the user if their content gets rejecte
 After the setup, when new entities are being created, they are marked as 
 _pending_. Then their status can be changed to _approved_ or _rejected_.
 
-When querying the model only _approved_ entities are included, i.e.: _rejected_
-entities as well as _pending_ ones are excluded. You can include those by
-explicitly specifying it.
+Also, when an update occurs that modifies attributes that require approval the
+entity becomes _suspended_ again.
 
-When an update occurs that modifies attributes that require approval the entity
-becomes _suspended_ again.
+By default the approval scope is applied on every query and filters out the
+_pending_ and _rejected_ entities, so only _approved_ entities are included.
+You can include the entities that aren't _approved_ by explicitly specifying it.
 
 ## Install
 
@@ -151,6 +151,21 @@ Entity::anyApprovalStatus()->get(); // retrieving all
 Entity::anyApprovalStatus()->find(1); // retrieving one
 
 Entity::anyApprovalStatus()->delete(); // deleting all
+```
+
+If you want to disable the approval scope totally on every query, you can set
+the `approvalScopeDisabled` on the model.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Mtvs\EloquentApproval\Approvable;
+
+class Entity extends Model
+{
+    use Approvable;
+    
+    public $approvalScopeDisabled = true;
+}
 ```
 
 ### Limiting to only a specific status

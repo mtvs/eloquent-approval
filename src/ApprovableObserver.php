@@ -46,5 +46,10 @@ class ApprovableObserver
             $model->getApprovalStatusColumn(),
             ApprovalStatuses::PENDING
         );
+
+        $model->setAttribute(
+            $model->getApprovalAtColumn(),
+            null
+        );
     }
 }

@@ -41,9 +41,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+		$this->assertNull($entity->approval_at);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::PENDING
+			'approval_status' => ApprovalStatuses::PENDING,
+			'approval_at' => null,
 		]);
 	}
 
@@ -74,9 +77,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+		$this->assertNotNull($entity->approval_at);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::APPROVED
+			'approval_status' => ApprovalStatuses::APPROVED,
+			'approval_at' => $attributes['approval_at']
 		]);
 
 		// it is suspended on update of the attributes that require approval
@@ -99,9 +105,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+		$this->assertNull($entity->approval_at);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::PENDING
+			'approval_status' => ApprovalStatuses::PENDING,
+			'approval_at' => null,
 		]);
 	}
 
@@ -133,9 +142,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+		$this->assertNotNull($entity->approval_at);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::APPROVED
+			'approval_status' => ApprovalStatuses::APPROVED,
+			'approval_at' => $attributes['approval_at']
 		]);
 
 		// it is suspended on update of the attributes that require approval
@@ -158,9 +170,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::PENDING, $entity->approval_status);
+		$this->assertNull($entity->approval_at);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::PENDING
+			'approval_status' => ApprovalStatuses::PENDING,
+			'approval_at' => null,
 		]);
 	}
 
@@ -192,9 +207,12 @@ class SuspensionOnUpdateTest extends TestCase
 		]);
 
 		$this->assertEquals(ApprovalStatuses::APPROVED, $entity->approval_status);
+		$this->assertNotNull($entity->approval_status);
+
 		$this->assertDatabaseHas('entities', [
 			'id' => $entity->id,
-			'approval_status' => ApprovalStatuses::APPROVED
+			'approval_status' => ApprovalStatuses::APPROVED,
+			'approval_at' => $attributes['approval_at']
 		]);
 	}
 }

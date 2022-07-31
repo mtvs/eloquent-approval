@@ -1,10 +1,10 @@
 ![Build Status](https://github.com/mtvs/eloquent-approval/actions/workflows/build.yml/badge.svg)
 
-![eloquent-approval-preview](https://user-images.githubusercontent.com/8286154/172069783-52fd5b91-e032-4c1a-9094-9611abe4e3c8.png)
-
 # Eloquent Approval
 
 Approval process for Laravel's Eloquent models.
+
+![eloquent-approval-preview](https://user-images.githubusercontent.com/8286154/172069783-52fd5b91-e032-4c1a-9094-9611abe4e3c8.png)
 
 ## Why we need content approval in our apps
 
@@ -369,18 +369,6 @@ cycle.
 
 Call `<approval-status>` and pass the `value` prop to show the current status.
 
-## Support
-
-If you liked this project and want to support the author, you can contact
-[mtvsdev@gmail.com](mailto:mtvsdev@gmail.com) Thanks.
-
-## Development / Contribution
-
-### Run tests
-
-```sh   
-$ composer test
-```
 
 ## Inspirations
 

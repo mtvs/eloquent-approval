@@ -24,7 +24,7 @@ class UiCommand extends Command
 			$dir
 		);
 
-		$this->info("The Approval UI components were copied successfully in the components dir.");
-		$this->comment("Do not forget to register the components in your app.js file.");
+		$this->info("The approval UI components were installed successfully.");
+		$this->comment("Don\'t forget to register the components.");
 	}
 }

@@ -50,7 +50,7 @@ class ApprovalEventsTest extends TestCase
             $event = $this->beforeEvents[$i];
             $listener = $event.'Listener';
             $mock = $this->getMockBuilder('stdClass')
-                ->setMethods([$listener])
+                ->addMethods([$listener])
                 ->getMock();
             $mock->expects($this->once())->method($listener);
 
@@ -72,7 +72,7 @@ class ApprovalEventsTest extends TestCase
             $afterEvent = $this->afterEvents[$i];
             $afterEventListener = $afterEvent.'Listener';
             $mock = $this->getMockBuilder('stdClass')
-                ->setMethods([$beforeListener, $afterEventListener])
+                ->addMethods([$beforeListener, $afterEventListener])
                 ->getMock();
             $mock->method($beforeListener)->will($this->returnValue(false));
             $mock->expects($this->never())->method($afterEventListener);
@@ -106,7 +106,7 @@ class ApprovalEventsTest extends TestCase
             $event = $this->afterEvents[$i];
             $listener = $event.'Listener';
             $mock = $this->getMockBuilder('stdClass')
-                ->setMethods([$listener, 'approvalChangedListener'])
+                ->addMethods([$listener, 'approvalChangedListener'])
                 ->getMock();
             $mock->expects($this->once())->method($listener);
             $mock->expects($this->once())->method('approvalChangedListener');
@@ -135,7 +135,7 @@ class ApprovalEventsTest extends TestCase
             $afterEvent = $this->afterEvents[$i];
 
             $mock = $this->getMockBuilder('stdClass')
-                ->setMethods([
+                ->addMethods([
                     'beforeListener',
                     'afterListener', 
                     'approvalChangedListener'
@@ -159,7 +159,7 @@ class ApprovalEventsTest extends TestCase
     public function it_supports_observers()
     {
         $observerMock = $this->getMockBuilder('stdClass')
-            ->setMethods($events = array_merge($this->beforeEvents, $this->afterEvents))
+            ->addMethods($events = array_merge($this->beforeEvents, $this->afterEvents))
             ->getMock();
 
         foreach ($events as $event) {

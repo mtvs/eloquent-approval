@@ -6,7 +6,7 @@ use Mtvs\EloquentApproval\ApprovalServiceProvider;
 use Mtvs\EloquentApproval\ApprovalStatuses;
 use Orchestra\Testbench\TestCase as Orchestra;
 
-abstract class TestCase extends Orchestra
+class TestCase extends Orchestra
 {
     protected $approvalStatuses = [
         ApprovalStatuses::APPROVED,

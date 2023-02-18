@@ -8,8 +8,11 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.0, 8.1]
-        illuminate: [^8.0, ^9.0]
+        php: [8.0, 8.1, 8.2]
+        illuminate: [^8.0, ^9.0, ^10.0]
+        exclude:
+          - php: 8.0
+            illuminate: ^10.0
 
     name: PHP ${{ matrix.php }} & Illuminate ${{ matrix.illuminate }}
 

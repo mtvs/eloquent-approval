@@ -13,6 +13,10 @@ jobs:
         exclude:
           - php: 8.0
             illuminate: ^10.0
+          - php: 8.0
+            illuminate: ^11.0
+          - php: 8.1
+            illuminate: ^11.0
 
     name: PHP ${{ matrix.php }} & Illuminate ${{ matrix.illuminate }}
 
